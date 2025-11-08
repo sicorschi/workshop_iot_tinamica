@@ -33,7 +33,7 @@ https://www.raspberrypi.com/software/
 Raspberry Pi 3
 ```
 
-![Choose device](image.png)
+![Choose device](assets/image.png)
 
 4. Choose the SO type
 
@@ -41,19 +41,19 @@ Raspberry Pi 3
 Raspberry Pi OS (other) > Raspberry Pi OS Lite (64-bit) With NO desktop environment
 ```
 
-![Choose OS1](image-1.png)
+![Choose OS1](assets/image-1.png)
 
-![Choose OS2](image-2.png)
+![Choose OS2](assets/image-2.png)
 
 5. Choose the device storage
 
-![Choose storage](image-3.png)
+![Choose storage](assets/image-3.png)
 
 6. Click on **Next**
 
 7. Before flashing the OS to the Raspberry Pi board, we need to setup some configurations. Click on **Edit Settings**
 
-![Edit settings](image-4.png)
+![Edit settings](assets/image-4.png)
 
 8. Edit the information in the **General** block
 
@@ -71,25 +71,25 @@ SSID: XXXXX
 Password: YYYYY
 ```
 
-![General tab](image-5.png)
+![General tab](assets/image-5.png)
 
 9. Edit the information in the **Services** block
 
 Use password auth
 
-![Services tab](image-6.png)
+![Services tab](assets/image-6.png)
 
 10. Click on YES
 
 11. Click YES on the warning panel to override the previous data
 
-![alt text](image-7.png)
+![alt text](assets/image-7.png)
 
 12. Start the writting process
 
-![alt text](image-8.png)
+![alt text](assets/image-8.png)
 
-![alt text](image-9.png)
+![alt text](assets/image-9.png)
 
 ### Start Raspberry Pi
 
@@ -97,11 +97,11 @@ Use password auth
 
 2. Open the **Advanced IP Scanner**
 
-![alt text](image-10.png)
+![alt text](assets/image-10.png)
 
 3. Start the search to find the Raspberry Pi board IP
 
-![alt text](image-11.png)
+![alt text](assets/image-11.png)
 
 4. Access the board by opening a terminal and run the **ssh** command
 
@@ -109,13 +109,13 @@ Use password auth
 ssh igor@192.168.0.17
 ```
 
-![alt text](image-12.png)
+![alt text](assets/image-12.png)
 
 5. Type YES and insert the password
 
-![alt text](image-13.png)
+![alt text](assets/image-13.png)
 
-![alt text](image-14.png)
+![alt text](assets/image-14.png)
 
 ### Setup Broker
 
@@ -200,11 +200,7 @@ bash <(curl -sL https://raw.githubusercontent.com/node-red/linux-installers/mast
 
 By default Node-Red is installed in Raspberry Pi OS however its recommencded to run the previous command to update to the newest versions
 
-2. Once its installed run the command to configure the tool
-
-```
-node-red admin init
-```
+![alt text](assets/image-15.png)
 
 3. Press Enter to create a Node-RED Settings file on /home/pi/.node-red/settings.js
 
@@ -224,18 +220,50 @@ Allow Function nodes to load external modules? Yes.
 Node-RED configuration was successful. All settings are saved on settings.js.
 ```
 
-4. After all the configurations are done we can start the node-red tool
+4. Start the node red service
 
 ```
-node-red-start
+sudo systemctl start nodered.service
 ```
 
-5. To run node-red on boot run the following:
+5. Check the node red service status
+
+```
+sudo systemctl status nodered.service
+```
+
+6. To run node-red on boot run the following:
 
 ```
 sudo systemctl enable nodered.service
 ```
 
-6. After the instalation you can acces the interface on the http://raspberryPiIP:1880/ui
+7. Reboot the board
+
+```
+sudo reboot now
+```
+
+8. Access again the raspberry ip by ssh
+
+```
+ssh igor@192.168.0.17
+```
+
+8. After all the configurations are done we can start the node-red tool
+
+```
+node-red-start
+```
+
+![alt text](assets/image-16.png)
+
+9. After the instalation you can acces the interface on the http://raspberryPiIP:1880
+
+![alt text](assets/image-17.png)
+
+10. Insert the user credentials we set before, at the installation stage
+
+![alt text](assets/image-18.png)
 
 **NOTE:** Install new palette dashboard: Go to **Manage palette** > **Install** section and search for **node-red-dashboard**
