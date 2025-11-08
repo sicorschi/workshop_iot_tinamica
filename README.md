@@ -301,3 +301,23 @@ Search for **ESP32** and select the library
 ![alt text](assets/image-19.png)
 
 5. After this restart the Arduino IDE
+
+6. Go to **Tools** > **Board** and check that you have the ESP32 board available
+
+7. Test and upload an example build in code. Go to **File** > **Examples** > **WiFi** > **WiFiScan**
+
+8. Select the board in the board searchbox
+
+![alt text](assets/image-20.png)
+
+9. Copy and paste
+
+```
+doit
+```
+
+9. Select the **DOIT ESP32 DEVKIT V1** option and the selected port **COM 7 (USB)**
+
+10. Click on Upload button
+
+11. Open the Serial Monitor to see the output of the code. Go to **Tools** > **Serial Monitor** and select the 115200 baud as the transmission rate.
