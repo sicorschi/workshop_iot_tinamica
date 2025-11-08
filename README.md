@@ -1,4 +1,34 @@
-## Content
+# IoT Workshop - Table of Contents
+
+## Workshop Course Content
+
+1. [Introduction / Welcome](#workshop-course-content)
+2. [Theory Part](#workshop-course-content)
+   - What is IoT and brief history
+   - IoT concepts
+   - Devices
+   - Communication protocols
+   - Architecture
+3. [Practical Part](#workshop-course-content)
+   - Setup
+   - Circuit board
+   - Architecture
+
+## Raspberry Pi Setup Guide
+
+- [Setup Raspberry Pi OS](#setup-raspberry-pi-os)
+- [Start Raspberry Pi](#start-raspberry-pi)
+- [Setup MQTT Broker](#setup-broker)
+- [Start MQTT Broker](#start-broker)
+- [Install Node-Red](#install-node-red)
+
+## ESP32 Development
+
+- [Install Arduino IDE](#install-arduino-ide)
+
+---
+
+## Workshop course content
 
 1. Introduction / Welcome
 2. Theory part
@@ -149,7 +179,7 @@ sudo nano /etc/mosquitto/mosquitto.conf
 
 5. Paste 2 lines at the end of the file
 
-```´
+```
 listener 1883
 allow_anonymous true
 ```
@@ -202,6 +232,12 @@ By default Node-Red is installed in Raspberry Pi OS however its recommencded to 
 
 ![alt text](assets/image-15.png)
 
+2. Once its installed run the command to configure the tool
+
+```
+node-red admin init
+```
+
 3. Press Enter to create a Node-RED Settings file on /home/pi/.node-red/settings.js
 
 ```
@@ -250,7 +286,7 @@ sudo reboot now
 ssh igor@192.168.0.17
 ```
 
-8. After all the configurations are done we can start the node-red tool
+9. After all the configurations are done we can start the node-red tool
 
 ```
 node-red-start
@@ -258,11 +294,11 @@ node-red-start
 
 ![alt text](assets/image-16.png)
 
-9. After the instalation you can acces the interface on the http://raspberryPiIP:1880
+10. After the instalation you can acces the interface on the http://raspberryPiIP:1880
 
 ![alt text](assets/image-17.png)
 
-10. Insert the user credentials we set before, at the installation stage
+11. Insert the user credentials we set before, at the installation stage
 
 ![alt text](assets/image-18.png)
 

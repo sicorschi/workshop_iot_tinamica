@@ -15,7 +15,7 @@
 
 // Replace with your SSID/Password combination
 const char* ssid = "sercommBB9013";
-const char* password = "B0mb4H4d1ch0b0mb4";
+const char* password = "";
 
 // Add your MQTT Broker IP address
 const char* mqtt_server = "192.168.0.18";
