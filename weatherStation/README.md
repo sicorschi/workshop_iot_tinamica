@@ -119,7 +119,7 @@ const char* mqtt_server = "192.168.0.18";
 ```arduino
 const int ledErrorPin = 15;
 const int ledWarningPin = 5;
-const int ledOperationalPin = 18
+const int ledOperationalPin = 18;
 ```
 
 7. Define the variable to use
@@ -246,6 +246,7 @@ void reconnect() {
       // Subscribe
       client.subscribe("esp32/redled");
       client.subscribe("esp32/blueled");
+      client.subscribe("esp32/greenled");
     } else {
       Serial.print("failed, rc=");
       Serial.print(client.state());
