@@ -55,7 +55,616 @@ Go to **Menu** > **Manage palette** > **Install tab** > Type **dashboard** and i
 Go to **Menu** > **Import** > **Clipboard** and copy and paste the following string
 
 ```
-[{"id":"9e58624.7faaba","type":"mqtt out","z":"c02b79b2.501998","name":"","topic":"esp32/output","qos":"","retain":"","broker":"10e78a89.5b4fd5","x":610,"y":342,"wires":[]},{"id":"abf7079a.653be8","type":"mqtt in","z":"c02b79b2.501998","name":"","topic":"esp32/temperature","qos":"2","broker":"10e78a89.5b4fd5","x":484,"y":249,"wires":[["cc79021b.9a751","21eae8f8.2971b8"]]},{"id":"83cf37cf.c76988","type":"ui_switch","z":"c02b79b2.501998","name":"","label":"Output","group":"61285987.c20328","order":0,"width":0,"height":0,"passthru":true,"decouple":"false","topic":"","style":"","onvalue":"on","onvalueType":"str","onicon":"","oncolor":"","offvalue":"off","offvalueType":"str","officon":"","offcolor":"","x":469,"y":342,"wires":[["9e58624.7faaba"]]},{"id":"cc79021b.9a751","type":"debug","z":"c02b79b2.501998","name":"","active":true,"tosidebar":true,"console":false,"tostatus":false,"complete":"false","x":681,"y":216,"wires":[]},{"id":"4aecba01.78ce64","type":"mqtt in","z":"c02b79b2.501998","name":"","topic":"esp32/humidity","qos":"2","broker":"10e78a89.5b4fd5","x":473,"y":133,"wires":[["22efa7b7.544a28","df37e6b7.64c1c8"]]},{"id":"22efa7b7.544a28","type":"debug","z":"c02b79b2.501998","name":"","active":true,"tosidebar":true,"console":false,"tostatus":false,"complete":"false","x":670,"y":100,"wires":[]},{"id":"21eae8f8.2971b8","type":"ui_chart","z":"c02b79b2.501998","name":"","group":"61285987.c20328","order":0,"width":0,"height":0,"label":"Temperature","chartType":"line","legend":"false","xformat":"HH:mm:ss","interpolate":"linear","nodata":"","dot":false,"ymin":"","ymax":"","removeOlder":1,"removeOlderPoints":"","removeOlderUnit":"3600","cutout":0,"useOneColor":false,"colors":["#1f77b4","#aec7e8","#ff7f0e","#2ca02c","#98df8a","#d62728","#ff9896","#9467bd","#c5b0d5"],"useOldStyle":false,"x":681,"y":276,"wires":[[],[]]},{"id":"df37e6b7.64c1c8","type":"ui_gauge","z":"c02b79b2.501998","name":"","group":"61285987.c20328","order":0,"width":0,"height":0,"gtype":"gage","title":"Humidity","label":"%","format":"{{value}}","min":0,"max":"100","colors":["#00b3d9","#0073e6","#001bd7"],"seg1":"33","seg2":"66","x":660,"y":160,"wires":[]},{"id":"10e78a89.5b4fd5","type":"mqtt-broker","z":"","name":"","broker":"localhost","port":"1883","clientid":"","usetls":false,"compatmode":true,"keepalive":"60","cleansession":true,"birthTopic":"","birthQos":"0","birthPayload":"","closeTopic":"","closeQos":"0","closePayload":"","willTopic":"","willQos":"0","willPayload":""},{"id":"61285987.c20328","type":"ui_group","z":"","name":"Main","tab":"e7c46d5e.a1283","disp":true,"width":"6","collapse":false},{"id":"e7c46d5e.a1283","type":"ui_tab","z":"","name":"Dashboard","icon":"dashboard"}]
+[
+    {
+        "id": "f81f6e832a3a5c7b",
+        "type": "tab",
+        "label": "Flow 1",
+        "disabled": false,
+        "info": "",
+        "env": []
+    },
+    {
+        "id": "ef29fc2bcf179a99",
+        "type": "mqtt out",
+        "z": "f81f6e832a3a5c7b",
+        "name": "ErrorLight",
+        "topic": "esp32/redled",
+        "qos": "",
+        "retain": "",
+        "respTopic": "",
+        "contentType": "",
+        "userProps": "",
+        "correl": "",
+        "expiry": "",
+        "broker": "10e78a89.5b4fd5",
+        "x": 680,
+        "y": 460,
+        "wires": []
+    },
+    {
+        "id": "e0ab5e7e77baa055",
+        "type": "mqtt in",
+        "z": "f81f6e832a3a5c7b",
+        "name": "",
+        "topic": "esp32/temperature",
+        "qos": "2",
+        "broker": "10e78a89.5b4fd5",
+        "inputs": 0,
+        "x": 524,
+        "y": 387,
+        "wires": [
+            [
+                "8ad0844e3ccf5a98",
+                "3e4acce9f317f7bf",
+                "0d3f5e57e77fd792"
+            ]
+        ]
+    },
+    {
+        "id": "8ad0844e3ccf5a98",
+        "type": "debug",
+        "z": "f81f6e832a3a5c7b",
+        "name": "",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "x": 1130,
+        "y": 380,
+        "wires": []
+    },
+    {
+        "id": "d4c4dabce5c97a4e",
+        "type": "mqtt in",
+        "z": "f81f6e832a3a5c7b",
+        "name": "",
+        "topic": "esp32/humidity",
+        "qos": "2",
+        "broker": "10e78a89.5b4fd5",
+        "inputs": 0,
+        "x": 513,
+        "y": 271,
+        "wires": [
+            [
+                "cea5eb7baa1adadb",
+                "ca07345a68771779",
+                "f1884ba35720b8f6"
+            ]
+        ]
+    },
+    {
+        "id": "cea5eb7baa1adadb",
+        "type": "debug",
+        "z": "f81f6e832a3a5c7b",
+        "name": "",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "x": 1110,
+        "y": 220,
+        "wires": []
+    },
+    {
+        "id": "ca07345a68771779",
+        "type": "ui-gauge",
+        "z": "f81f6e832a3a5c7b",
+        "name": "Humidity",
+        "group": "91ed78c66b982b12",
+        "order": 1,
+        "value": "payload",
+        "valueType": "msg",
+        "width": 3,
+        "height": 3,
+        "gtype": "gauge-half",
+        "gstyle": "needle",
+        "title": "Last value",
+        "alwaysShowTitle": false,
+        "floatingTitlePosition": "top-left",
+        "units": "%",
+        "icon": "",
+        "prefix": "",
+        "suffix": "",
+        "segments": [
+            {
+                "from": "0",
+                "color": "#5c91d6",
+                "text": "",
+                "textType": "label"
+            },
+            {
+                "from": "70",
+                "color": "#ffc800",
+                "text": "",
+                "textType": "label"
+            },
+            {
+                "from": "90",
+                "color": "#ea5353",
+                "text": "",
+                "textType": "label"
+            }
+        ],
+        "min": 0,
+        "max": "100",
+        "sizeThickness": 16,
+        "sizeGap": 4,
+        "sizeKeyThickness": 8,
+        "styleRounded": true,
+        "styleGlow": false,
+        "className": "",
+        "x": 920,
+        "y": 280,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "58ec22e4e85a80eb",
+        "type": "ui-switch",
+        "z": "f81f6e832a3a5c7b",
+        "name": "ForceStatusError",
+        "label": "Force - Error",
+        "group": "e47fc3dc6dbc4f5c",
+        "order": 1,
+        "width": 0,
+        "height": 0,
+        "passthru": false,
+        "decouple": false,
+        "topic": "topic",
+        "topicType": "msg",
+        "style": "",
+        "className": "",
+        "layout": "row-left-swapped",
+        "clickableArea": "switch",
+        "onvalue": "on",
+        "onvalueType": "str",
+        "onicon": "",
+        "oncolor": "",
+        "offvalue": "off",
+        "offvalueType": "str",
+        "officon": "",
+        "offcolor": "",
+        "x": 470,
+        "y": 460,
+        "wires": [
+            [
+                "ef29fc2bcf179a99"
+            ]
+        ]
+    },
+    {
+        "id": "3e4acce9f317f7bf",
+        "type": "ui-chart",
+        "z": "f81f6e832a3a5c7b",
+        "group": "586eef57c3fd18e2",
+        "name": "Temperature",
+        "label": "History",
+        "order": 2,
+        "chartType": "area",
+        "category": "topic",
+        "categoryType": "msg",
+        "xAxisLabel": "time (seconds)",
+        "xAxisProperty": "",
+        "xAxisPropertyType": "timestamp",
+        "xAxisType": "time",
+        "xAxisFormat": "",
+        "xAxisFormatType": "auto",
+        "xmin": "",
+        "xmax": "",
+        "yAxisLabel": "temperature (Celcius)",
+        "yAxisProperty": "payload",
+        "yAxisPropertyType": "msg",
+        "ymin": "",
+        "ymax": "",
+        "bins": 10,
+        "action": "append",
+        "stackSeries": false,
+        "pointShape": "circle",
+        "pointRadius": 4,
+        "showLegend": false,
+        "removeOlder": 1,
+        "removeOlderUnit": "3600",
+        "removeOlderPoints": "",
+        "colors": [
+            "#1a892d",
+            "#ff0000",
+            "#ff7f0e",
+            "#a02c4f",
+            "#a347e1",
+            "#d62728",
+            "#ff9896",
+            "#67a0bc",
+            "#c5b0d5"
+        ],
+        "textColor": [
+            "#666666"
+        ],
+        "textColorDefault": true,
+        "gridColor": [
+            "#e5e5e5"
+        ],
+        "gridColorDefault": true,
+        "width": "5",
+        "height": "3",
+        "className": "",
+        "interpolation": "linear",
+        "x": 930,
+        "y": 340,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "0d3f5e57e77fd792",
+        "type": "ui-gauge",
+        "z": "f81f6e832a3a5c7b",
+        "name": "Temperature",
+        "group": "586eef57c3fd18e2",
+        "order": 1,
+        "value": "payload",
+        "valueType": "msg",
+        "width": "3",
+        "height": "3",
+        "gtype": "gauge-half",
+        "gstyle": "needle",
+        "title": "Last value",
+        "alwaysShowTitle": false,
+        "floatingTitlePosition": "top-left",
+        "units": "Celcius",
+        "icon": "",
+        "prefix": "",
+        "suffix": "",
+        "segments": [
+            {
+                "from": "0",
+                "color": "#1a892d",
+                "text": "",
+                "textType": "label"
+            },
+            {
+                "from": "25",
+                "color": "#ffc800",
+                "text": "",
+                "textType": "label"
+            },
+            {
+                "from": "35",
+                "color": "#ea5353",
+                "text": "",
+                "textType": "label"
+            }
+        ],
+        "min": 0,
+        "max": "50",
+        "sizeThickness": 16,
+        "sizeGap": 4,
+        "sizeKeyThickness": 8,
+        "styleRounded": true,
+        "styleGlow": false,
+        "className": "",
+        "x": 930,
+        "y": 440,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "f1884ba35720b8f6",
+        "type": "ui-chart",
+        "z": "f81f6e832a3a5c7b",
+        "group": "91ed78c66b982b12",
+        "name": "Humidity",
+        "label": "History",
+        "order": 2,
+        "chartType": "area",
+        "category": "topic",
+        "categoryType": "msg",
+        "xAxisLabel": "time (seconds)",
+        "xAxisProperty": "",
+        "xAxisPropertyType": "timestamp",
+        "xAxisType": "time",
+        "xAxisFormat": "",
+        "xAxisFormatType": "auto",
+        "xmin": "",
+        "xmax": "",
+        "yAxisLabel": "Humidity",
+        "yAxisProperty": "payload",
+        "yAxisPropertyType": "msg",
+        "ymin": "0",
+        "ymax": "100",
+        "bins": 10,
+        "action": "append",
+        "stackSeries": false,
+        "pointShape": "triangle",
+        "pointRadius": 4,
+        "showLegend": false,
+        "removeOlder": 1,
+        "removeOlderUnit": "3600",
+        "removeOlderPoints": "",
+        "colors": [
+            "#5c91d6",
+            "#ff0000",
+            "#ff7f0e",
+            "#2ca02c",
+            "#a347e1",
+            "#d62728",
+            "#ff9896",
+            "#9467bd",
+            "#c5b0d5"
+        ],
+        "textColor": [
+            "#666666"
+        ],
+        "textColorDefault": true,
+        "gridColor": [
+            "#e5e5e5"
+        ],
+        "gridColorDefault": true,
+        "width": "5",
+        "height": "3",
+        "className": "",
+        "interpolation": "linear",
+        "x": 920,
+        "y": 160,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "f78bb6b2b75961f5",
+        "type": "mqtt out",
+        "z": "f81f6e832a3a5c7b",
+        "name": "WarningLight",
+        "topic": "esp32/blueled",
+        "qos": "",
+        "retain": "",
+        "respTopic": "",
+        "contentType": "",
+        "userProps": "",
+        "correl": "",
+        "expiry": "",
+        "broker": "10e78a89.5b4fd5",
+        "x": 690,
+        "y": 540,
+        "wires": []
+    },
+    {
+        "id": "a3ef1bbb12ce2eae",
+        "type": "ui-switch",
+        "z": "f81f6e832a3a5c7b",
+        "name": "ForceStatusWarning",
+        "label": "Force - Warning",
+        "group": "e47fc3dc6dbc4f5c",
+        "order": 2,
+        "width": 0,
+        "height": 0,
+        "passthru": false,
+        "decouple": false,
+        "topic": "topic",
+        "topicType": "msg",
+        "style": "",
+        "className": "",
+        "layout": "row-left-swapped",
+        "clickableArea": "switch",
+        "onvalue": "on",
+        "onvalueType": "str",
+        "onicon": "",
+        "oncolor": "",
+        "offvalue": "off",
+        "offvalueType": "str",
+        "officon": "",
+        "offcolor": "",
+        "x": 480,
+        "y": 540,
+        "wires": [
+            [
+                "f78bb6b2b75961f5"
+            ]
+        ]
+    },
+    {
+        "id": "a8ce338748dbe2ac",
+        "type": "mqtt out",
+        "z": "f81f6e832a3a5c7b",
+        "name": "ErrorLight",
+        "topic": "esp32/greenled",
+        "qos": "",
+        "retain": "",
+        "respTopic": "",
+        "contentType": "",
+        "userProps": "",
+        "correl": "",
+        "expiry": "",
+        "broker": "10e78a89.5b4fd5",
+        "x": 680,
+        "y": 620,
+        "wires": []
+    },
+    {
+        "id": "b29ac059d9d3b804",
+        "type": "ui-switch",
+        "z": "f81f6e832a3a5c7b",
+        "name": "ForceStatusOperational",
+        "label": "Force - Operational",
+        "group": "e47fc3dc6dbc4f5c",
+        "order": 3,
+        "width": 0,
+        "height": 0,
+        "passthru": false,
+        "decouple": false,
+        "topic": "topic",
+        "topicType": "msg",
+        "style": "",
+        "className": "",
+        "layout": "row-left-swapped",
+        "clickableArea": "switch",
+        "onvalue": "on",
+        "onvalueType": "str",
+        "onicon": "",
+        "oncolor": "",
+        "offvalue": "off",
+        "offvalueType": "str",
+        "officon": "",
+        "offcolor": "",
+        "x": 490,
+        "y": 620,
+        "wires": [
+            [
+                "a8ce338748dbe2ac"
+            ]
+        ]
+    },
+    {
+        "id": "10e78a89.5b4fd5",
+        "type": "mqtt-broker",
+        "name": "",
+        "broker": "localhost",
+        "port": "1883",
+        "clientid": "",
+        "usetls": false,
+        "compatmode": true,
+        "keepalive": "60",
+        "cleansession": true,
+        "birthTopic": "",
+        "birthQos": "0",
+        "birthPayload": "",
+        "closeTopic": "",
+        "closeQos": "0",
+        "closePayload": "",
+        "willTopic": "",
+        "willQos": "0",
+        "willPayload": ""
+    },
+    {
+        "id": "91ed78c66b982b12",
+        "type": "ui-group",
+        "name": "Humidity block",
+        "page": "483509cba5f47933",
+        "width": 6,
+        "height": 1,
+        "order": 2,
+        "showTitle": true,
+        "className": "",
+        "visible": "true",
+        "disabled": "false",
+        "groupType": "default"
+    },
+    {
+        "id": "e47fc3dc6dbc4f5c",
+        "type": "ui-group",
+        "name": "Status buttons control panel",
+        "page": "483509cba5f47933",
+        "width": 6,
+        "height": 1,
+        "order": 3,
+        "showTitle": true,
+        "className": "",
+        "visible": "true",
+        "disabled": "false",
+        "groupType": "default"
+    },
+    {
+        "id": "586eef57c3fd18e2",
+        "type": "ui-group",
+        "name": "Temperature block",
+        "page": "483509cba5f47933",
+        "width": 6,
+        "height": 1,
+        "order": 1,
+        "showTitle": true,
+        "className": "",
+        "visible": "true",
+        "disabled": "false",
+        "groupType": "default"
+    },
+    {
+        "id": "483509cba5f47933",
+        "type": "ui-page",
+        "name": "Weather Station - Tinamica IoT",
+        "ui": "ede86061982d2f56",
+        "path": "/page1",
+        "icon": "home",
+        "layout": "grid",
+        "theme": "59dd1fb2010492c8",
+        "breakpoints": [
+            {
+                "name": "Default",
+                "px": "0",
+                "cols": "3"
+            },
+            {
+                "name": "Tablet",
+                "px": "576",
+                "cols": "6"
+            },
+            {
+                "name": "Small Desktop",
+                "px": "768",
+                "cols": "9"
+            },
+            {
+                "name": "Desktop",
+                "px": "1024",
+                "cols": "12"
+            }
+        ],
+        "order": 1,
+        "className": "",
+        "visible": true,
+        "disabled": false
+    },
+    {
+        "id": "ede86061982d2f56",
+        "type": "ui-base",
+        "name": "My Dashboard",
+        "path": "/dashboard",
+        "appIcon": "",
+        "includeClientData": true,
+        "acceptsClientConfig": [
+            "ui-notification",
+            "ui-control"
+        ],
+        "showPathInSidebar": false,
+        "headerContent": "page",
+        "navigationStyle": "default",
+        "titleBarStyle": "default",
+        "showReconnectNotification": true,
+        "notificationDisplayTime": 1,
+        "showDisconnectNotification": true,
+        "allowInstall": false
+    },
+    {
+        "id": "59dd1fb2010492c8",
+        "type": "ui-theme",
+        "name": "Default Theme",
+        "colors": {
+            "surface": "#ffffff",
+            "primary": "#0e00cc",
+            "bgPage": "#eeeeee",
+            "groupBg": "#ffffff",
+            "groupOutline": "#cccccc"
+        },
+        "sizes": {
+            "density": "default",
+            "pagePadding": "12px",
+            "groupGap": "12px",
+            "groupBorderRadius": "4px",
+            "widgetGap": "12px"
+        }
+    },
+    {
+        "id": "b7e3bd5d306fe946",
+        "type": "global-config",
+        "env": [],
+        "modules": {
+            "@flowfuse/node-red-dashboard": "1.29.0"
+        }
+    }
+]
 ```
 
 This should import the node-red box workflow
