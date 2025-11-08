@@ -33,7 +33,7 @@ https://www.raspberrypi.com/software/
 Raspberry Pi 3
 ```
 
-![Choose device](assets/image.png)
+![Choose device](image.png)
 
 4. Choose the SO type
 
@@ -41,19 +41,19 @@ Raspberry Pi 3
 Raspberry Pi OS (other) > Raspberry Pi OS Lite (64-bit) With NO desktop environment
 ```
 
-![Choose OS1](assets/image-1.png)
+![Choose OS1](image-1.png)
 
-![Choose OS2](assets/image-2.png)
+![Choose OS2](image-2.png)
 
 5. Choose the device storage
 
-![Choose storage](assets/image-3.png)
+![Choose storage](image-3.png)
 
 6. Click on **Next**
 
 7. Before flashing the OS to the Raspberry Pi board, we need to setup some configurations. Click on **Edit Settings**
 
-![Edit settings](assets/image-4.png)
+![Edit settings](image-4.png)
 
 8. Edit the information in the **General** block
 
@@ -71,25 +71,25 @@ SSID: XXXXX
 Password: YYYYY
 ```
 
-![General tab](assets/image-5.png)
+![General tab](image-5.png)
 
 9. Edit the information in the **Services** block
 
 Use password auth
 
-![Services tab](assets/image-6.png)
+![Services tab](image-6.png)
 
 10. Click on YES
 
 11. Click YES on the warning panel to override the previous data
 
-![alt text](assets/image-7.png)
+![alt text](image-7.png)
 
 12. Start the writting process
 
-![alt text](assets/image-8.png)
+![alt text](image-8.png)
 
-![alt text](assets/image-9.png)
+![alt text](image-9.png)
 
 ### Start Raspberry Pi
 
@@ -97,11 +97,11 @@ Use password auth
 
 2. Open the **Advanced IP Scanner**
 
-![alt text](assets/image-10.png)
+![alt text](image-10.png)
 
 3. Start the search to find the Raspberry Pi board IP
 
-![alt text](assets/image-11.png)
+![alt text](image-11.png)
 
 4. Access the board by opening a terminal and run the **ssh** command
 
@@ -109,13 +109,13 @@ Use password auth
 ssh igor@192.168.0.17
 ```
 
-![alt text](assets/image-12.png)
+![alt text](image-12.png)
 
 5. Type YES and insert the password
 
-![alt text](assets/image-13.png)
+![alt text](image-13.png)
 
-![alt text](assets/image-14.png)
+![alt text](image-14.png)
 
 ### Setup Broker
 
