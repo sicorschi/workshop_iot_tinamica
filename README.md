@@ -190,7 +190,7 @@ mosquitto_sub -d -t testTopic
 mosquitto_pub -d -t testTopic -m "Hello world!"
 ```
 
-## Install Node-Red
+### Install Node-Red
 
 1. Install Node-Red tool to manage the incoming MQTT communications
 
@@ -267,3 +267,37 @@ node-red-start
 ![alt text](assets/image-18.png)
 
 **NOTE:** Install new palette dashboard: Go to **Manage palette** > **Install** section and search for **node-red-dashboard**
+
+## ESP32
+
+### Install Arduino IDE
+
+1. Previous to run the IDE we need to install JAVA Runtime environment
+
+```
+https://www.java.com/es/download/
+```
+
+2. Download the Arduino IDE
+
+```
+https://www.arduino.cc/en/software/
+```
+
+3. Install the ESP32 board into the Arduino IDE
+
+Go to **File** > **Preferences**
+
+Paste and copy the next link to the \_\_Additional boards manager URLs
+
+```
+https://raw.githubusercontent.com/espressif/arduino-esp32/gh-pages/package_esp32_index.json
+```
+
+4. Open **Boards Manager**. Go to **Tools** > **Board** > **Boards Manager**
+
+Search for **ESP32** and select the library
+
+![alt text](assets/image-19.png)
+
+5. After this restart the Arduino IDE
