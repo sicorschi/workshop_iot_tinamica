@@ -3,9 +3,11 @@
 #include <ESPAsyncWebServer.h>
 #include <AsyncTCP.h>
 #include "LittleFS.h"
+#include <DHT.h>
 
 // Create AsyncWebServer object on port 80
 AsyncWebServer server(80);
+DHT dht(26, DHT11);
 
 // Search for parameter in HTTP POST request
 const char* PARAM_INPUT_1 = "ssid";
@@ -110,6 +112,26 @@ String processor(const String& var) {
   return String();
 }
 
+float readDHTTemperature() {
+  float t = dht.readTemperature();
+  if (isnan(t)) {
+    Serial.println("Failed to read from DHT sensor!");
+    return -1;
+  } else {
+    return t;
+  }
+}
+
+float readDHTHumidity() {
+  float h = dht.readHumidity();
+  if (isnan(h)) {
+    Serial.println("Failed to read from DHT sensor!");
+    return -1;
+  } else {
+    return h;
+  }
+}
+
 void setup() {
   Serial.begin(115200);
   initLittleFS();
@@ -125,8 +147,12 @@ void setup() {
   Serial.println(ip);
   Serial.println(gateway);
   if(initWiFi()) {
+    readDHTTemperature(), readDHTHumidity()
     // Route for root / web page
-    server.on("/", HTTP_GET, [](AsyncWebServerRequest *request) {
+     server.on("/", HTTP_GET, [](AsyncWebServerRequest *request) {
+      request->send(LittleFS, "/weather.html", "text/html", false, processor);
+    });
+    server.on("/led", HTTP_GET, [](AsyncWebServerRequest *request) {
       request->send(LittleFS, "/index.html", "text/html", false, processor);
     });
     server.serveStatic("/", LittleFS, "/");
