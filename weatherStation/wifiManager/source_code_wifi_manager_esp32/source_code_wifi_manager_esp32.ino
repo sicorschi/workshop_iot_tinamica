@@ -108,6 +108,11 @@ String processor(const String& var) {
       ledState = "OFF";
     }
     return ledState;
+  } else if (var == "TEMPERATURE") {
+    return String(readDHTTemperature());
+  } 
+  if (var == "HUMIDITY") {
+    return String(readDHTHumidity());
   }
   return String();
 }
@@ -147,9 +152,8 @@ void setup() {
   Serial.println(ip);
   Serial.println(gateway);
   if(initWiFi()) {
-    readDHTTemperature(), readDHTHumidity()
     // Route for root / web page
-     server.on("/", HTTP_GET, [](AsyncWebServerRequest *request) {
+     server.on("/weather", HTTP_GET, [](AsyncWebServerRequest *request) {
       request->send(LittleFS, "/weather.html", "text/html", false, processor);
     });
     server.on("/led", HTTP_GET, [](AsyncWebServerRequest *request) {
