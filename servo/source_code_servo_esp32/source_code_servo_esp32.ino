@@ -50,7 +50,6 @@ void callback(char* topic, byte* message, unsigned int length) {
       servo1.write(newPosition);
       currentServoPosition = newPosition;
       servoValueString = String(newPosition);
-      // Publish the new servo status immediately
       char statusMsg[10];
       servoValueString.toCharArray(statusMsg, 10);
       client.publish("esp32/servo/status", statusMsg);
@@ -62,15 +61,13 @@ void callback(char* topic, byte* message, unsigned int length) {
 }
 
 void reconnect() {
-  // Loop until we're reconnected
+  // Loop until reconnect
   while (!client.connected()) {
     Serial.print("Attempting MQTT connection...");
-    // Attempt to connect
     if (client.connect("ESP32Client")) {
       Serial.println("connected");
       // Subscribe
       client.subscribe("esp32/servo");
-      // Publish initial servo status
       char statusMsg[10];
       servoValueString.toCharArray(statusMsg, 10);
       client.publish("esp32/servo/status", statusMsg);
@@ -79,7 +76,6 @@ void reconnect() {
       Serial.print("failed, rc=");
       Serial.print(client.state());
       Serial.println(" try again in 5 seconds");
-      // Wait 5 seconds before retrying
       delay(5000);
     }
   }
@@ -91,11 +87,13 @@ void openDoor() {
   servoValueString = String(135);
   doorOpen = true;
   doorOpenTime = millis();
-  // Publish door status
   char statusMsg[10];
   servoValueString.toCharArray(statusMsg, 10);
   client.publish("esp32/servo/status", statusMsg);
   Serial.println("Door opened! Servo at 135 degrees");
+  char distanceMsg[10];
+  dtostrf(distanceCm, 1, 2, distanceMsg);
+  client.publish("esp32/servo/distance", distanceMsg);
 }
 
 void closeDoor() {
@@ -103,7 +101,6 @@ void closeDoor() {
   currentServoPosition = 0;
   servoValueString = String(0);
   doorOpen = false;
-  // Publish door status
   char statusMsg[10];
   servoValueString.toCharArray(statusMsg, 10);
   client.publish("esp32/servo/status", statusMsg);
@@ -123,7 +120,6 @@ void setup() {
   Serial.println(WiFi.localIP());
   client.setServer(mqtt_server, 1883);
   client.setCallback(callback);
-  // Initialize servo to 0 position
   servo1.write(0);
   currentServoPosition = 0;
   servoValueString = String(0);
@@ -144,15 +140,13 @@ void loop() {
   distanceCm = duration * SOUND_SPEED/2;
   Serial.print("Distance (cm): ");
   Serial.println(distanceCm);
-  // Check for presence detection (object within 10cm)
+  // Check for presence detection
   if (distanceCm < 10 && distanceCm > 0) {
     if (!presenceDetected) {
       presenceDetected = true;      
-      // Publish presence detection message
       const char* sensorMsg = "Presence detected! Opening doors";
       client.publish("esp32/servo/sensor", sensorMsg);
       Serial.println("Presence detected! Publishing to MQTT...");
-      // Open the door
       openDoor();
     }
   } else {
@@ -160,22 +154,20 @@ void loop() {
   }
   // Auto-close door after specified duration
   if (doorOpen && (millis() - doorOpenTime > doorOpenDuration)) {
-    if (!presenceDetected) { // Only close if no presence detected
+    if (!presenceDetected) {
       closeDoor();
     } else {
       // Reset timer if presence is still detected
       doorOpenTime = millis();
     }
   }
-  // Publish regular status updates every 5 seconds
+  // Publish regular status updates every 500 ms
   long now = millis();
   if (now - lastMsg > 5000) {
     lastMsg = now;
-    // Publish servo position
     char statusMsg[10];
     servoValueString.toCharArray(statusMsg, 10);
     client.publish("esp32/servo/status", statusMsg);
-    // Publish distance reading
     char distanceMsg[10];
     dtostrf(distanceCm, 1, 2, distanceMsg);
     client.publish("esp32/servo/distance", distanceMsg);
