@@ -14,15 +14,15 @@ int value = 0;
 const char* ssid = "";
 const char* password = "";
 const char* mqtt_server = "192.168.0.18";
-static const int servoPin = 13;
+static const int servoPin = 26;
 String servoValueString = String(0);
 int currentServoPosition = 0; 
 int pos1 = 0; 
 int pos2 = 0;
 long duration;
 float distanceCm;
-const int trigPin = 4;
-const int echoPin = 5;
+const int trigPin = 13;
+const int echoPin = 12;
 // Variables for presence detection
 bool presenceDetected = false;
 bool doorOpen = false;
@@ -82,9 +82,9 @@ void reconnect() {
 }
 
 void openDoor() {
-  servo1.write(135);
-  currentServoPosition = 135;
-  servoValueString = String(135);
+  servo1.write(150);
+  currentServoPosition = 150;
+  servoValueString = String(150);
   doorOpen = true;
   doorOpenTime = millis();
   char statusMsg[10];
