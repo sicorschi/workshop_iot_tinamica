@@ -1,19 +1,71 @@
-# WiFi Manager
+# WiFi Manager - ESP32 Web Configuration
+
+## Table of Contents
+
+1. [Introduction](#introduction)
+2. [Requirements](#requirements)
+3. [How It Works](#how-it-works)
+   - [Process Flow Diagram](#process-flow-diagram)
+   - [Step-by-Step Process](#step-by-step-process)
+4. [Library Setup](#library-setup)
+   - [ESPAsyncWebServer Fix](#espasyncwebserver-fix)
+   - [Required Libraries](#required-libraries)
+   - [Troubleshooting](#troubleshooting)
+5. [Code Implementation](#code-implementation)
+   - [Library Imports](#library-imports)
+   - [Variable Declarations](#variable-declarations)
+   - [File System Functions](#file-system-functions)
+   - [WiFi Connection Functions](#wifi-connection-functions)
+   - [Web Server Setup](#web-server-setup)
+6. [File System Plugin](#file-system-plugin)
+   - [Installation](#installation)
+   - [Usage](#usage)
+7. [Testing & Deployment](#testing--deployment)
+
+---
 
 ## Introduction
 
-Necessary module to implement a solution in order to have a web server running inside the ESP32 board to display an interface asking for the WiFi network credentials.
+The WiFi Manager is a crucial module that implements a web-based configuration system for ESP32 devices. This solution allows you to set up WiFi credentials without hardcoding them into your firmware, making your IoT devices more flexible and deployment-ready.
+
+**Key Features:**
+
+- ✅ Web-based WiFi configuration
+- ✅ Access Point mode for initial setup
+- ✅ Persistent storage using LittleFS
+- ✅ Automatic connection retry mechanism
+- ✅ LED status indication
+- ✅ Simple web interface for device control
 
 ## Requirements
 
-- ESP32 device board
-- WiFi credentials of the network we want to connect
+### Hardware
 
-## How it works
+- **ESP32 development board** (DEVKIT V1 or compatible)
+- **USB cable** for programming and power
+- **Computer** with Arduino IDE installed
 
-### Diagram
+### Software
 
-![alt text](assets/image.png)
+- **Arduino IDE** (version 2.0 or later)
+- **ESP32 Arduino Core**
+- **LittleFS file system support**
+- **Compatible web browser** for configuration
+
+### Network
+
+- **WiFi network** you want to connect the ESP32 to
+- **Network credentials** (SSID and password)
+
+## How It Works
+
+### Process Flow Diagram
+
+![WiFi Manager Flow](assets/image.png)
+
+### Step-by-Step Process
+
+The WiFi Manager follows a smart configuration flow:
 
 - When the ESP first starts, it tries to read the ssid.txt, pass.txt and ip.txt files\* (1);
 
@@ -31,15 +83,17 @@ Necessary module to implement a solution in order to have a web server running i
 
 - If it establishes a connection, the process is completed successfully, and you can access the main web server page that can do whatever you want (control sensor readings, control outputs, display some text, etc.) (9). Otherwise, it will set the Access Point (3), and you can access the default IP address (192.168.4.1) to add another SSID/password combination.
 
-## Code
+## Library Setup
+
+### ESPAsyncWebServer Fix
 
 **⚠️ IMPORTANT:** The standard ESPAsyncWebServer library has compatibility issues with newer ESP32 Arduino Core versions. Follow the solution below to fix the compilation error.
 
-### Fix for ESPAsyncWebServer Library Error
+#### Common Error
 
 The error `ESPAsyncWebServer.h:1124:49: error: passing 'const AsyncServer' as 'this' argument discards qualifiers [-fpermissive]` occurs due to compatibility issues between the library and newer ESP32 cores.
 
-**Solution 1: Use the Compatible Fork (Recommended)**
+#### Solution 1: Use Compatible Fork (Recommended)
 
 1. **Remove the standard ESPAsyncWebServer library** if you have it installed:
 
@@ -55,7 +109,7 @@ The error `ESPAsyncWebServer.h:1124:49: error: passing 'const AsyncServer' as 't
    - Go to **Sketch** > **Include Library** > **Add .ZIP Library**
    - Select the downloaded zip file
 
-**Solution 2: Downgrade ESP32 Arduino Core (Alternative)**
+#### Solution 2: Downgrade ESP32 Arduino Core (Alternative)
 
 If you prefer to keep the standard library:
 
@@ -94,9 +148,13 @@ If you prefer to keep the standard library:
    - **WebServer.h** (built-in, synchronous)
    - **WiFiManager.h** (dedicated WiFi management library)
 
-### Main
+## Code Implementation
 
-1. Import the libraries
+Now let's implement the WiFi Manager step by step.
+
+### Library Imports
+
+1. **Import the required libraries**
 
 ```arduino
 #include <Arduino.h>
@@ -106,7 +164,9 @@ If you prefer to keep the standard library:
 #include "LittleFS.h"
 ```
 
-4. Create the webserver at the specific port
+### Variable Declarations
+
+2. **Create the web server instance**
 
 ```arduino
 AsyncWebServer server(80);
@@ -161,7 +221,9 @@ const int ledPin = 2;
 String ledState;
 ```
 
-11. Initialize the LittleFS functionality
+### File System Functions
+
+11. **Initialize LittleFS functionality**
 
 ```arduino
 void initLittleFS() {
@@ -206,7 +268,9 @@ void writeFile(fs::FS &fs, const char * path, const char * message){
 }
 ```
 
-13. Define the function to return the connection status
+### WiFi Connection Functions
+
+13. **Define the WiFi connection function**
 
 ```arduino
 bool initWiFi() {
@@ -237,7 +301,9 @@ bool initWiFi() {
 }
 ```
 
-14. Define the processor function to replace the placeholder of the build in led board in the html web page
+### Web Server Setup
+
+14. **Create the HTML processor function**
 
 ```arduino
 String processor(const String& var) {
@@ -254,7 +320,7 @@ String processor(const String& var) {
 }
 ```
 
-15. Define the setup function to init the board configuration and start the webserver
+15. **Main setup function - Initialize board and start web server**
 
 ```arduino
 void setup() {
@@ -355,11 +421,15 @@ void setup() {
 
 **⚠️ IMPORTANT:** There is no need to define anything inside the loop function, since everything is processed in the setup main function, but is important to define the function even if it's empty.
 
-## Filesystem
+## File System Plugin
 
-Add Filesystem plugin to handle files inside the board in order to perform better the webserver WiFi Manager
+### Installation
 
-1. Download the plugin, copy and paste the url and dow load the **.vsix** file
+To handle files efficiently on the ESP32, you need to install the LittleFS upload plugin for Arduino IDE.
+
+### Setup Process
+
+1. **Download the LittleFS plugin**
 
 ```
 https://github.com/earlephilhower/arduino-littlefs-upload/releases
@@ -373,4 +443,37 @@ https://github.com/earlephilhower/arduino-littlefs-upload/releases
 C:\Users\IgorSicorschiGutu\.arduinoIDE
 ```
 
-4. Validate the new plugin by opening Arduino IDE and type **Ctrl + Shift + P** to open the command palette and type Upload LittleFS to Pico/ESP8266/ESP32
+4. **Validate the plugin installation**
+   - Open Arduino IDE and press **Ctrl + Shift + P**
+   - Type "Upload LittleFS" to verify the plugin is available
+   - The command "Upload LittleFS to Pico/ESP8266/ESP32" should appear
+
+## Testing & Deployment
+
+### First Time Setup
+
+1. **Upload the code** to your ESP32
+2. **Upload the data folder** using LittleFS plugin
+3. **Open Serial Monitor** to see the boot process
+4. **Connect to ESP-WIFI-MANAGER** WiFi network
+5. **Navigate to 192.168.4.1** in your browser
+6. **Enter your WiFi credentials** and IP settings
+7. **Wait for ESP32 to restart** and connect to your network
+
+### Normal Operation
+
+- ESP32 will automatically connect to saved WiFi network
+- Access the device using the configured IP address
+- Control the built-in LED via web interface
+- If connection fails, it will revert to AP mode for reconfiguration
+
+### Troubleshooting
+
+- **Can't see ESP-WIFI-MANAGER**: Check if ESP32 is in AP mode
+- **Connection fails**: Verify WiFi credentials and signal strength
+- **IP conflicts**: Use a different static IP address
+- **Upload errors**: Check USB cable and drivers
+
+---
+
+**📝 Note:** This WiFi Manager provides a foundation for any ESP32 IoT project requiring flexible network configuration!

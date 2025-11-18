@@ -1,49 +1,114 @@
-# IoT Workshop - Table of Contents
+# IoT Workshop - Smart City Exercises
 
-## Workshop Course Content
+## Table of Contents
 
-1. [Introduction / Welcome](#workshop-course-content)
-2. [Theory Part](#workshop-course-content)
-   - What is IoT and brief history
-   - IoT concepts
-   - Devices
-   - Communication protocols
-   - Architecture
-3. [Practical Part](#workshop-course-content)
-   - Setup
-   - Circuit board
-   - Architecture
-
-## Raspberry Pi Setup Guide
-
-- [Setup Raspberry Pi OS](#setup-raspberry-pi-os)
-- [Start Raspberry Pi](#start-raspberry-pi)
-- [Setup MQTT Broker](#setup-broker)
-- [Start MQTT Broker](#start-broker)
-- [Install Node-Red](#install-node-red)
-
-## ESP32 Development
-
-- [Install Arduino IDE](#install-arduino-ide)
+1. [Introduction](#introduction)
+2. [Requirements](#requirements)
+   - [Hardware Requirements](#hardware-requirements)
+   - [Software Requirements](#software-requirements)
+   - [Network Requirements](#network-requirements)
+3. [Raspberry Pi Setup](#raspberry-pi)
+   - [Setup Raspberry Pi OS](#setup-raspberry-pi-os)
+   - [Start Raspberry Pi](#start-raspberry-pi)
+   - [Setup MQTT Broker](#setup-broker)
+   - [Start MQTT Broker](#start-broker)
+   - [Install Node-Red](#install-node-red)
+4. [ESP32 Development](#esp32)
+   - [Install Arduino IDE](#install-arduino-ide)
+5. [Workshop Projects](#workshop-projects)
+   - [Weather Station](#weather-station)
+   - [Smart Lights](#smart-lights)
+   - [Servo Door Control](#servo-door-control)
+   - [WiFi Manager](#wifi-manager)
 
 ---
 
-## Workshop course content
+## Introduction
 
-1. Introduction / Welcome
-2. Theory part
-   - 1. What is IoT and brief history
-   - 2. IoT concepts
-   - 3. Devices
-   - 4. Communication protocols
-   - 5. Architecture
-3. Practical part
-   - 1. Setup
-   - 2. Circuit board
-   - 3. Architecture
+Welcome to the IoT Workshop - Smart City Exercises! The aim of this practical workshop is to build 4 examples of Smart City elements: a smart dumpster with garbage level monitoring, automated smart lighting, a weather monitoring station, and an optional WiFi manager for device configuration.
+
+### What You'll Learn
+
+- **IoT Fundamentals**: Understanding IoT concepts, architecture, and communication protocols
+- **Hardware Integration**: Working with ESP32 microcontrollers, sensors like HC-SR04, and actuators like servomotor
+- **MQTT Communication**: Implementing publish-subscribe messaging for IoT devices
+- **Data Visualization**: Creating dashboards with Node-RED for monitoring and control
+- **Real-world Applications**: Building practical smart city solutions including:
+  - Weather monitoring stations
+  - Automated lighting systems
+  - Smart door controls with presence detection
+  - WiFi configuration management
+
+### Workshop Structure
+
+1. **Setup Phase**: Configuring Raspberry Pi as MQTT broker and Node-RED server
+2. **Practical Projects**: Building and programming ESP32-based IoT devices
+3. **Integration**: Connecting all components into a smart city ecosystem
+
+## Requirements
+
+### Hardware Requirements
+
+#### Raspberry Pi Setup
+
+- **Raspberry Pi 3 or 4** with microSD card (16GB minimum)
+- **Power supply** for Raspberry Pi (5V, 3A recommended)
+- **Ethernet cable** or WiFi connection
+- **MicroSD card reader**
+
+#### ESP32 Development Kit
+
+- **ESP32 DEVKIT V1** or compatible board
+- **USB cable** (USB-A to Micro-USB) for programming
+- **Breadboard** for prototyping
+- **Jumper wires** (male-to-male, male-to-female)
+
+#### Sensors and Components
+
+- **DHT11** temperature and humidity sensor
+- **HC-SR04** ultrasonic distance sensor
+- **SG90 Servo motor**
+- **Relay module** (5V, optocoupler isolated)
+- **LED strips** or light bulbs for automation
+- **Resistors** (220Ω, 1kΩ, 10kΩ)
+
+### Software Requirements
+
+#### Development Environment
+
+- **Arduino IDE** (version 2.0 or later)
+- **Java Runtime Environment** (required for Arduino IDE)
+- **CP210x USB Driver** for ESP32 programming
+- **Advanced IP Scanner** (for network device discovery)
+- **SSH client** (PuTTY for Windows, Terminal for macOS/Linux)
+
+#### Libraries and Dependencies
+
+- **ESP32 Arduino Core**
+- **PubSubClient** (MQTT client library)
+- **ESP32Servo** library
+- **DHT sensor library**
+- **ESPAsyncWebServer** (compatible fork)
+- **AsyncTCP** library
+
+### Network Requirements
+
+- **WiFi network** with internet access
+- **Router access** for port configuration (if needed)
+- **Static IP assignment** capability (recommended)
+- **MQTT broker access** (Raspberry Pi will host the broker)
+
+### Recommended Tools
+
+- **Multimeter** for troubleshooting
+- **Wire strippers** for cable preparation
+- **Small screwdriver set**
+- **Anti-static wrist strap** (optional but recommended)
+
+---
 
 **Note:**
-CP210x_Universal_Windows_Driver in order to achieve the programming of PlatformIO with ESP32
+CP210x_Universal_Windows_Driver in order to achieve the programming of PlatformIO with ESP32 or if you have troubleshooting Arduino IDE
 
 ## Raspberry Pi
 
@@ -357,3 +422,37 @@ doit
 10. Click on Upload button
 
 11. Open the Serial Monitor to see the output of the code. Go to **Tools** > **Serial Monitor** and select the 115200 baud as the transmission rate.
+
+---
+
+## Workshop Projects
+
+After completing the setup, you can proceed with the following IoT projects:
+
+### Weather Station
+
+Build a complete weather monitoring system using DHT11 sensor to collect temperature and humidity data, publish it via MQTT, and visualize it on a Node-RED dashboard.
+
+📁 **Project Location**: `/weatherStation/`
+
+### Smart Lights
+
+Create an automated lighting system with presence detection using HC-SR04 sensor and relay control for energy-efficient smart city lighting.
+
+📁 **Project Location**: `/smartLights/`
+
+### Servo Door Control
+
+Develop an automatic door system with presence detection that opens/closes doors using servo motors, perfect for smart building applications.
+
+📁 **Project Location**: `/servo/`
+
+### WiFi Manager
+
+Implement a WiFi configuration system that allows devices to connect to different networks without hardcoding credentials, essential for scalable IoT deployments.
+
+📁 **Project Location**: `/wifiManager/`
+
+---
+
+**Happy Building! 🚀**
