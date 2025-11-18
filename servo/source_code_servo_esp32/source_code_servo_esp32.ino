@@ -21,8 +21,12 @@ int pos1 = 0;
 int pos2 = 0;
 long duration;
 float distanceCm;
+float levelDuration;
+float levelDistanceCm;
 const int trigPin = 13;
 const int echoPin = 12;
+const int levelTrigPin = 25;
+const int levelEchoPin = 32;
 // Variables for presence detection
 bool presenceDetected = false;
 bool doorOpen = false;
@@ -112,6 +116,8 @@ void setup() {
   servo1.attach(servoPin);
   pinMode(trigPin, OUTPUT);
   pinMode(echoPin, INPUT);
+  pinMode(levelTrigPin, OUTPUT);
+  pinMode(levelEchoPin, INPUT);
   WiFi.begin(ssid, password);
   while (WiFi.status() != WL_CONNECTED) {
     delay(1000);
@@ -140,6 +146,16 @@ void loop() {
   distanceCm = duration * SOUND_SPEED/2;
   Serial.print("Distance (cm): ");
   Serial.println(distanceCm);
+
+  digitalWrite(levelTrigPin, LOW);
+  delayMicroseconds(2);
+  digitalWrite(levelTrigPin, HIGH);
+  delayMicroseconds(10);
+  digitalWrite(levelTrigPin, LOW);
+  levelDuration = pulseIn(levelEchoPin, HIGH);
+  levelDistanceCm = levelDuration * SOUND_SPEED/2;
+  Serial.print("Level distance (cm): ");
+  Serial.println(levelDistanceCm);
   // Check for presence detection
   if (distanceCm < 10 && distanceCm > 0) {
     if (!presenceDetected) {
@@ -175,6 +191,12 @@ void loop() {
     Serial.print(servoValueString);
     Serial.print(" | Distance: ");
     Serial.println(distanceCm);
+
+    char levelDistanceMsg[10];
+    dtostrf(levelDistanceCm, 1, 2, levelDistanceMsg);
+    client.publish("esp32/garbage/level", levelDistanceMsg);
+    Serial.print("Published garbage level: ");
+    Serial.println(levelDistanceCm);
   }
   delay(500);
 }
