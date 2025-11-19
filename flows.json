@@ -1,0 +1,1852 @@
+[
+    {
+        "id": "f81f6e832a3a5c7b",
+        "type": "tab",
+        "label": "Flow 1",
+        "disabled": false,
+        "info": "",
+        "env": []
+    },
+    {
+        "id": "ef29fc2bcf179a99",
+        "type": "mqtt out",
+        "z": "f81f6e832a3a5c7b",
+        "name": "ErrorLight",
+        "topic": "esp32/redled",
+        "qos": "",
+        "retain": "",
+        "respTopic": "",
+        "contentType": "",
+        "userProps": "",
+        "correl": "",
+        "expiry": "",
+        "broker": "10e78a89.5b4fd5",
+        "x": 680,
+        "y": 460,
+        "wires": []
+    },
+    {
+        "id": "e0ab5e7e77baa055",
+        "type": "mqtt in",
+        "z": "f81f6e832a3a5c7b",
+        "name": "",
+        "topic": "esp32/temperature",
+        "qos": "2",
+        "broker": "10e78a89.5b4fd5",
+        "inputs": 0,
+        "x": 524,
+        "y": 387,
+        "wires": [
+            [
+                "8ad0844e3ccf5a98",
+                "3e4acce9f317f7bf",
+                "0d3f5e57e77fd792"
+            ]
+        ]
+    },
+    {
+        "id": "8ad0844e3ccf5a98",
+        "type": "debug",
+        "z": "f81f6e832a3a5c7b",
+        "name": "",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "x": 1130,
+        "y": 380,
+        "wires": []
+    },
+    {
+        "id": "d4c4dabce5c97a4e",
+        "type": "mqtt in",
+        "z": "f81f6e832a3a5c7b",
+        "name": "",
+        "topic": "esp32/humidity",
+        "qos": "2",
+        "broker": "10e78a89.5b4fd5",
+        "inputs": 0,
+        "x": 513,
+        "y": 271,
+        "wires": [
+            [
+                "cea5eb7baa1adadb",
+                "ca07345a68771779",
+                "f1884ba35720b8f6"
+            ]
+        ]
+    },
+    {
+        "id": "cea5eb7baa1adadb",
+        "type": "debug",
+        "z": "f81f6e832a3a5c7b",
+        "name": "",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "x": 1110,
+        "y": 220,
+        "wires": []
+    },
+    {
+        "id": "ca07345a68771779",
+        "type": "ui-gauge",
+        "z": "f81f6e832a3a5c7b",
+        "name": "Humidity",
+        "group": "586eef57c3fd18e2",
+        "order": 5,
+        "value": "payload",
+        "valueType": "msg",
+        "width": 3,
+        "height": 3,
+        "gtype": "gauge-half",
+        "gstyle": "needle",
+        "title": "Humidity",
+        "alwaysShowTitle": false,
+        "floatingTitlePosition": "top-left",
+        "units": "%",
+        "icon": "",
+        "prefix": "",
+        "suffix": "",
+        "segments": [
+            {
+                "from": "0",
+                "color": "#5c91d6",
+                "text": "",
+                "textType": "label"
+            },
+            {
+                "from": "70",
+                "color": "#ffc800",
+                "text": "",
+                "textType": "label"
+            },
+            {
+                "from": "90",
+                "color": "#ea5353",
+                "text": "",
+                "textType": "label"
+            }
+        ],
+        "min": 0,
+        "max": "100",
+        "sizeThickness": 16,
+        "sizeGap": 4,
+        "sizeKeyThickness": 8,
+        "styleRounded": true,
+        "styleGlow": false,
+        "className": "",
+        "x": 920,
+        "y": 280,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "58ec22e4e85a80eb",
+        "type": "ui-switch",
+        "z": "f81f6e832a3a5c7b",
+        "name": "ForceStatusError",
+        "label": "Error",
+        "group": "586eef57c3fd18e2",
+        "order": 3,
+        "width": "2",
+        "height": "2",
+        "passthru": false,
+        "decouple": false,
+        "topic": "topic",
+        "topicType": "msg",
+        "style": "",
+        "className": "red",
+        "layout": "row-left-swapped",
+        "clickableArea": "switch",
+        "onvalue": "on",
+        "onvalueType": "str",
+        "onicon": "",
+        "oncolor": "",
+        "offvalue": "off",
+        "offvalueType": "str",
+        "officon": "",
+        "offcolor": "",
+        "x": 470,
+        "y": 460,
+        "wires": [
+            [
+                "ef29fc2bcf179a99"
+            ]
+        ]
+    },
+    {
+        "id": "3e4acce9f317f7bf",
+        "type": "ui-chart",
+        "z": "f81f6e832a3a5c7b",
+        "group": "586eef57c3fd18e2",
+        "name": "Temperature",
+        "label": "Temperature",
+        "order": 6,
+        "chartType": "area",
+        "category": "topic",
+        "categoryType": "msg",
+        "xAxisLabel": "time (seconds)",
+        "xAxisProperty": "",
+        "xAxisPropertyType": "timestamp",
+        "xAxisType": "time",
+        "xAxisFormat": "",
+        "xAxisFormatType": "auto",
+        "xmin": "",
+        "xmax": "",
+        "yAxisLabel": "Temperature °C",
+        "yAxisProperty": "payload",
+        "yAxisPropertyType": "msg",
+        "ymin": "0",
+        "ymax": "50",
+        "bins": 10,
+        "action": "append",
+        "stackSeries": false,
+        "pointShape": "dash",
+        "pointRadius": "12",
+        "showLegend": true,
+        "removeOlder": 1,
+        "removeOlderUnit": "3600",
+        "removeOlderPoints": "",
+        "colors": [
+            "#1a892d",
+            "#ff0000",
+            "#ff7f0e",
+            "#a02c4f",
+            "#a347e1",
+            "#d62728",
+            "#ff9896",
+            "#67a0bc",
+            "#c5b0d5"
+        ],
+        "textColor": [
+            "#666666"
+        ],
+        "textColorDefault": true,
+        "gridColor": [
+            "#e5e5e5"
+        ],
+        "gridColorDefault": true,
+        "width": "6",
+        "height": "4",
+        "className": "",
+        "interpolation": "linear",
+        "x": 930,
+        "y": 340,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "0d3f5e57e77fd792",
+        "type": "ui-gauge",
+        "z": "f81f6e832a3a5c7b",
+        "name": "Temperature",
+        "group": "586eef57c3fd18e2",
+        "order": 4,
+        "value": "payload",
+        "valueType": "msg",
+        "width": "3",
+        "height": "3",
+        "gtype": "gauge-half",
+        "gstyle": "needle",
+        "title": "Temperature",
+        "alwaysShowTitle": false,
+        "floatingTitlePosition": "top-left",
+        "units": "°C",
+        "icon": "",
+        "prefix": "",
+        "suffix": "",
+        "segments": [
+            {
+                "from": "0",
+                "color": "#1a892d",
+                "text": "",
+                "textType": "label"
+            },
+            {
+                "from": "40",
+                "color": "#ffc800",
+                "text": "",
+                "textType": "label"
+            },
+            {
+                "from": "45",
+                "color": "#ea5353",
+                "text": "",
+                "textType": "label"
+            }
+        ],
+        "min": 0,
+        "max": "50",
+        "sizeThickness": 16,
+        "sizeGap": 4,
+        "sizeKeyThickness": 8,
+        "styleRounded": true,
+        "styleGlow": false,
+        "className": "",
+        "x": 930,
+        "y": 440,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "f1884ba35720b8f6",
+        "type": "ui-chart",
+        "z": "f81f6e832a3a5c7b",
+        "group": "586eef57c3fd18e2",
+        "name": "Humidity",
+        "label": "Humidity",
+        "order": 7,
+        "chartType": "area",
+        "category": "topic",
+        "categoryType": "msg",
+        "xAxisLabel": "time (seconds)",
+        "xAxisProperty": "",
+        "xAxisPropertyType": "timestamp",
+        "xAxisType": "time",
+        "xAxisFormat": "",
+        "xAxisFormatType": "auto",
+        "xmin": "",
+        "xmax": "",
+        "yAxisLabel": "Humidity %",
+        "yAxisProperty": "payload",
+        "yAxisPropertyType": "msg",
+        "ymin": "0",
+        "ymax": "100",
+        "bins": 10,
+        "action": "append",
+        "stackSeries": false,
+        "pointShape": "cross",
+        "pointRadius": 4,
+        "showLegend": true,
+        "removeOlder": 1,
+        "removeOlderUnit": "3600",
+        "removeOlderPoints": "",
+        "colors": [
+            "#5c91d6",
+            "#ff0000",
+            "#ff7f0e",
+            "#2ca02c",
+            "#a347e1",
+            "#d62728",
+            "#ff9896",
+            "#9467bd",
+            "#c5b0d5"
+        ],
+        "textColor": [
+            "#666666"
+        ],
+        "textColorDefault": true,
+        "gridColor": [
+            "#e5e5e5"
+        ],
+        "gridColorDefault": true,
+        "width": "6",
+        "height": "4",
+        "className": "",
+        "interpolation": "linear",
+        "x": 920,
+        "y": 160,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "f78bb6b2b75961f5",
+        "type": "mqtt out",
+        "z": "f81f6e832a3a5c7b",
+        "name": "WarningLight",
+        "topic": "esp32/blueled",
+        "qos": "",
+        "retain": "",
+        "respTopic": "",
+        "contentType": "",
+        "userProps": "",
+        "correl": "",
+        "expiry": "",
+        "broker": "10e78a89.5b4fd5",
+        "x": 690,
+        "y": 540,
+        "wires": []
+    },
+    {
+        "id": "a3ef1bbb12ce2eae",
+        "type": "ui-switch",
+        "z": "f81f6e832a3a5c7b",
+        "name": "ForceStatusWarning",
+        "label": "Warning",
+        "group": "586eef57c3fd18e2",
+        "order": 2,
+        "width": "2",
+        "height": "2",
+        "passthru": false,
+        "decouple": false,
+        "topic": "topic",
+        "topicType": "msg",
+        "style": "",
+        "className": "yellow",
+        "layout": "row-left-swapped",
+        "clickableArea": "switch",
+        "onvalue": "on",
+        "onvalueType": "str",
+        "onicon": "",
+        "oncolor": "",
+        "offvalue": "off",
+        "offvalueType": "str",
+        "officon": "",
+        "offcolor": "",
+        "x": 480,
+        "y": 540,
+        "wires": [
+            [
+                "f78bb6b2b75961f5"
+            ]
+        ]
+    },
+    {
+        "id": "a8ce338748dbe2ac",
+        "type": "mqtt out",
+        "z": "f81f6e832a3a5c7b",
+        "name": "ErrorLight",
+        "topic": "esp32/greenled",
+        "qos": "",
+        "retain": "",
+        "respTopic": "",
+        "contentType": "",
+        "userProps": "",
+        "correl": "",
+        "expiry": "",
+        "broker": "10e78a89.5b4fd5",
+        "x": 680,
+        "y": 620,
+        "wires": []
+    },
+    {
+        "id": "b29ac059d9d3b804",
+        "type": "ui-switch",
+        "z": "f81f6e832a3a5c7b",
+        "name": "ForceStatusOperational",
+        "label": "Operational",
+        "group": "586eef57c3fd18e2",
+        "order": 1,
+        "width": "2",
+        "height": "2",
+        "passthru": false,
+        "decouple": false,
+        "topic": "topic",
+        "topicType": "msg",
+        "style": "",
+        "className": "green",
+        "layout": "row-left-swapped",
+        "clickableArea": "switch",
+        "onvalue": "on",
+        "onvalueType": "str",
+        "onicon": "",
+        "oncolor": "",
+        "offvalue": "off",
+        "offvalueType": "str",
+        "officon": "",
+        "offcolor": "",
+        "x": 490,
+        "y": 620,
+        "wires": [
+            [
+                "a8ce338748dbe2ac"
+            ]
+        ]
+    },
+    {
+        "id": "577e68b41b10ab04",
+        "type": "mqtt in",
+        "z": "f81f6e832a3a5c7b",
+        "name": "",
+        "topic": "esp32/light/status",
+        "qos": "2",
+        "datatype": "auto-detect",
+        "broker": "10e78a89.5b4fd5",
+        "nl": false,
+        "rap": false,
+        "inputs": 0,
+        "x": 460,
+        "y": 140,
+        "wires": [
+            [
+                "503c495216d962bd"
+            ]
+        ]
+    },
+    {
+        "id": "503c495216d962bd",
+        "type": "debug",
+        "z": "f81f6e832a3a5c7b",
+        "name": "debug 1",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 720,
+        "y": 60,
+        "wires": []
+    },
+    {
+        "id": "41caa5b8136baa44",
+        "type": "mqtt out",
+        "z": "f81f6e832a3a5c7b",
+        "name": "",
+        "topic": "esp32/light/output",
+        "qos": "1",
+        "retain": "",
+        "respTopic": "",
+        "contentType": "",
+        "userProps": "",
+        "correl": "",
+        "expiry": "",
+        "broker": "10e78a89.5b4fd5",
+        "x": 730,
+        "y": 700,
+        "wires": []
+    },
+    {
+        "id": "21ebdf950b5ffe9e",
+        "type": "mqtt out",
+        "z": "f81f6e832a3a5c7b",
+        "name": "",
+        "topic": "esp32/servo/control",
+        "qos": "1",
+        "retain": "",
+        "respTopic": "",
+        "contentType": "",
+        "userProps": "",
+        "correl": "",
+        "expiry": "",
+        "broker": "10e78a89.5b4fd5",
+        "x": 810,
+        "y": 1280,
+        "wires": []
+    },
+    {
+        "id": "8fe70ad053483658",
+        "type": "ui-slider",
+        "z": "f81f6e832a3a5c7b",
+        "group": "91ed78c66b982b12",
+        "name": "ForceServoSlider",
+        "label": "Door position",
+        "tooltip": "",
+        "order": 3,
+        "width": "6",
+        "height": "2",
+        "passthru": false,
+        "outs": "all",
+        "topic": "topic",
+        "topicType": "msg",
+        "thumbLabel": "true",
+        "showTicks": "always",
+        "min": 0,
+        "max": "180",
+        "step": "10",
+        "className": "",
+        "iconPrepend": "",
+        "iconAppend": "",
+        "color": "",
+        "colorTrack": "",
+        "colorThumb": "",
+        "showTextField": false,
+        "x": 430,
+        "y": 1340,
+        "wires": [
+            [
+                "418d4cfbe93645bc",
+                "441f0796cb2f6959"
+            ]
+        ]
+    },
+    {
+        "id": "418d4cfbe93645bc",
+        "type": "debug",
+        "z": "f81f6e832a3a5c7b",
+        "name": "debug 2",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 700,
+        "y": 1480,
+        "wires": []
+    },
+    {
+        "id": "4f3b5137593f1f1d",
+        "type": "mqtt in",
+        "z": "f81f6e832a3a5c7b",
+        "name": "",
+        "topic": "esp32/garbage/level_distance",
+        "qos": "2",
+        "datatype": "auto-detect",
+        "broker": "10e78a89.5b4fd5",
+        "nl": false,
+        "rap": false,
+        "inputs": 0,
+        "x": 460,
+        "y": 960,
+        "wires": [
+            [
+                "fb86e59802acbf57"
+            ]
+        ]
+    },
+    {
+        "id": "fb86e59802acbf57",
+        "type": "debug",
+        "z": "f81f6e832a3a5c7b",
+        "name": "debug 3",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 720,
+        "y": 940,
+        "wires": []
+    },
+    {
+        "id": "6c416a12e8410e99",
+        "type": "ui-gauge",
+        "z": "f81f6e832a3a5c7b",
+        "name": "Servo",
+        "group": "91ed78c66b982b12",
+        "order": 2,
+        "value": "payload",
+        "valueType": "msg",
+        "width": 3,
+        "height": 3,
+        "gtype": "gauge-half",
+        "gstyle": "needle",
+        "title": "servo position",
+        "alwaysShowTitle": false,
+        "floatingTitlePosition": "top-left",
+        "units": "degrees",
+        "icon": "",
+        "prefix": "",
+        "suffix": "",
+        "segments": [
+            {
+                "from": "0",
+                "color": "#5cd65c",
+                "text": "",
+                "textType": "label"
+            },
+            {
+                "from": "145",
+                "color": "#ffc800",
+                "text": "",
+                "textType": "label"
+            },
+            {
+                "from": "165",
+                "color": "#ea5353",
+                "text": "",
+                "textType": "label"
+            }
+        ],
+        "min": 0,
+        "max": "180",
+        "sizeThickness": 16,
+        "sizeGap": 4,
+        "sizeKeyThickness": 8,
+        "styleRounded": true,
+        "styleGlow": false,
+        "className": "",
+        "x": 1010,
+        "y": 1120,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "1f42710880cead6c",
+        "type": "ui-button",
+        "z": "f81f6e832a3a5c7b",
+        "group": "91ed78c66b982b12",
+        "name": "OPEN",
+        "label": "OPEN Dumpster",
+        "order": 4,
+        "width": "3",
+        "height": "1",
+        "emulateClick": false,
+        "tooltip": "",
+        "color": "",
+        "bgcolor": "",
+        "className": "",
+        "icon": "",
+        "iconPosition": "left",
+        "payload": "open",
+        "payloadType": "str",
+        "topic": "topic",
+        "topicType": "msg",
+        "buttonColor": "green",
+        "textColor": "",
+        "iconColor": "",
+        "enableClick": true,
+        "enablePointerdown": false,
+        "pointerdownPayload": "",
+        "pointerdownPayloadType": "str",
+        "enablePointerup": false,
+        "pointerupPayload": "",
+        "pointerupPayloadType": "str",
+        "x": 490,
+        "y": 1180,
+        "wires": [
+            [
+                "21ebdf950b5ffe9e",
+                "46975d8301612e16"
+            ]
+        ]
+    },
+    {
+        "id": "eecd0359df396ef9",
+        "type": "ui-button",
+        "z": "f81f6e832a3a5c7b",
+        "group": "91ed78c66b982b12",
+        "name": "CLOSE ",
+        "label": "CLOSE Dumpster",
+        "order": 5,
+        "width": "3",
+        "height": "1",
+        "emulateClick": false,
+        "tooltip": "",
+        "color": "",
+        "bgcolor": "",
+        "className": "",
+        "icon": "",
+        "iconPosition": "left",
+        "payload": "close",
+        "payloadType": "str",
+        "topic": "topic",
+        "topicType": "msg",
+        "buttonColor": "red",
+        "textColor": "",
+        "iconColor": "",
+        "enableClick": true,
+        "enablePointerdown": false,
+        "pointerdownPayload": "",
+        "pointerdownPayloadType": "str",
+        "enablePointerup": false,
+        "pointerupPayload": "",
+        "pointerupPayloadType": "str",
+        "x": 520,
+        "y": 1260,
+        "wires": [
+            [
+                "21ebdf950b5ffe9e",
+                "46975d8301612e16"
+            ]
+        ]
+    },
+    {
+        "id": "dc812ae734e1d847",
+        "type": "mqtt in",
+        "z": "f81f6e832a3a5c7b",
+        "name": "",
+        "topic": "esp32/servo/status",
+        "qos": "2",
+        "datatype": "auto-detect",
+        "broker": "10e78a89.5b4fd5",
+        "nl": false,
+        "rap": false,
+        "inputs": 0,
+        "x": 770,
+        "y": 1140,
+        "wires": [
+            [
+                "ece4ed7f8ef06c74",
+                "6c416a12e8410e99"
+            ]
+        ]
+    },
+    {
+        "id": "ece4ed7f8ef06c74",
+        "type": "debug",
+        "z": "f81f6e832a3a5c7b",
+        "name": "debug 4",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 1060,
+        "y": 1180,
+        "wires": []
+    },
+    {
+        "id": "3827981cc5101602",
+        "type": "mqtt in",
+        "z": "f81f6e832a3a5c7b",
+        "name": "",
+        "topic": "esp32/servo/distance",
+        "qos": "2",
+        "datatype": "auto-detect",
+        "broker": "10e78a89.5b4fd5",
+        "nl": false,
+        "rap": false,
+        "inputs": 0,
+        "x": 720,
+        "y": 1360,
+        "wires": [
+            [
+                "59fb6809af3acafc"
+            ]
+        ]
+    },
+    {
+        "id": "59fb6809af3acafc",
+        "type": "debug",
+        "z": "f81f6e832a3a5c7b",
+        "name": "debug 5",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 1020,
+        "y": 1360,
+        "wires": []
+    },
+    {
+        "id": "e8f766969f4d1345",
+        "type": "ui-button",
+        "z": "f81f6e832a3a5c7b",
+        "group": "e47fc3dc6dbc4f5c",
+        "name": "",
+        "label": "Turn ON",
+        "order": 2,
+        "width": "3",
+        "height": "2",
+        "emulateClick": false,
+        "tooltip": "",
+        "color": "",
+        "bgcolor": "",
+        "className": "",
+        "icon": "",
+        "iconPosition": "left",
+        "payload": "on",
+        "payloadType": "str",
+        "topic": "topic",
+        "topicType": "msg",
+        "buttonColor": "green",
+        "textColor": "",
+        "iconColor": "",
+        "enableClick": true,
+        "enablePointerdown": false,
+        "pointerdownPayload": "",
+        "pointerdownPayloadType": "str",
+        "enablePointerup": false,
+        "pointerupPayload": "",
+        "pointerupPayloadType": "str",
+        "x": 440,
+        "y": 680,
+        "wires": [
+            [
+                "41caa5b8136baa44"
+            ]
+        ]
+    },
+    {
+        "id": "136844569d1cc659",
+        "type": "ui-button",
+        "z": "f81f6e832a3a5c7b",
+        "group": "e47fc3dc6dbc4f5c",
+        "name": "",
+        "label": "Turn OFF",
+        "order": 1,
+        "width": "3",
+        "height": "2",
+        "emulateClick": false,
+        "tooltip": "",
+        "color": "",
+        "bgcolor": "",
+        "className": "",
+        "icon": "",
+        "iconPosition": "left",
+        "payload": "off",
+        "payloadType": "str",
+        "topic": "topic",
+        "topicType": "msg",
+        "buttonColor": "red",
+        "textColor": "",
+        "iconColor": "",
+        "enableClick": true,
+        "enablePointerdown": false,
+        "pointerdownPayload": "",
+        "pointerdownPayloadType": "str",
+        "enablePointerup": false,
+        "pointerupPayload": "",
+        "pointerupPayloadType": "str",
+        "x": 440,
+        "y": 720,
+        "wires": [
+            [
+                "41caa5b8136baa44"
+            ]
+        ]
+    },
+    {
+        "id": "06f627ce33b50542",
+        "type": "ui-gauge",
+        "z": "f81f6e832a3a5c7b",
+        "name": "",
+        "group": "91ed78c66b982b12",
+        "order": 1,
+        "value": "payload",
+        "valueType": "msg",
+        "width": 3,
+        "height": 3,
+        "gtype": "gauge-half",
+        "gstyle": "needle",
+        "title": "Garbage level",
+        "alwaysShowTitle": false,
+        "floatingTitlePosition": "top-left",
+        "units": "%",
+        "icon": "",
+        "prefix": "",
+        "suffix": "",
+        "segments": [
+            {
+                "from": "0",
+                "color": "#5cd65c",
+                "text": "",
+                "textType": "label"
+            },
+            {
+                "from": "75",
+                "color": "#ffc800",
+                "text": "",
+                "textType": "label"
+            },
+            {
+                "from": "90",
+                "color": "#ea5353",
+                "text": "",
+                "textType": "label"
+            }
+        ],
+        "min": 0,
+        "max": "100",
+        "sizeThickness": 16,
+        "sizeGap": 4,
+        "sizeKeyThickness": 8,
+        "styleRounded": true,
+        "styleGlow": false,
+        "className": "",
+        "x": 960,
+        "y": 1060,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "46975d8301612e16",
+        "type": "debug",
+        "z": "f81f6e832a3a5c7b",
+        "name": "debug 8",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 960,
+        "y": 1240,
+        "wires": []
+    },
+    {
+        "id": "2d0d7559a6928f93",
+        "type": "mqtt in",
+        "z": "f81f6e832a3a5c7b",
+        "name": "",
+        "topic": "esp32/gyro/accelerationx",
+        "qos": "2",
+        "datatype": "auto-detect",
+        "broker": "10e78a89.5b4fd5",
+        "nl": false,
+        "rap": false,
+        "inputs": 0,
+        "x": 770,
+        "y": 1820,
+        "wires": [
+            [
+                "48ed3c9983548cd3",
+                "0139136e68d0a73e"
+            ]
+        ]
+    },
+    {
+        "id": "0139136e68d0a73e",
+        "type": "ui-gauge",
+        "z": "f81f6e832a3a5c7b",
+        "name": "Acceleration X",
+        "group": "98a4969d846f5a51",
+        "order": 1,
+        "value": "payload",
+        "valueType": "msg",
+        "width": "2",
+        "height": 3,
+        "gtype": "gauge-half",
+        "gstyle": "needle",
+        "title": "Acceleration X",
+        "alwaysShowTitle": false,
+        "floatingTitlePosition": "top-left",
+        "units": "m/s2",
+        "icon": "",
+        "prefix": "",
+        "suffix": "",
+        "segments": [
+            {
+                "from": "-0.9",
+                "color": "#5cd65c",
+                "text": "",
+                "textType": "label"
+            },
+            {
+                "from": "9",
+                "color": "#ffc800",
+                "text": "",
+                "textType": "label"
+            },
+            {
+                "from": "12",
+                "color": "#ea5353",
+                "text": "",
+                "textType": "label"
+            }
+        ],
+        "min": "-0.9",
+        "max": "15",
+        "sizeThickness": 16,
+        "sizeGap": 4,
+        "sizeKeyThickness": 8,
+        "styleRounded": true,
+        "styleGlow": false,
+        "className": "",
+        "x": 1160,
+        "y": 1960,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "48ed3c9983548cd3",
+        "type": "debug",
+        "z": "f81f6e832a3a5c7b",
+        "name": "debug 10",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 1020,
+        "y": 1800,
+        "wires": []
+    },
+    {
+        "id": "adc7b35864b3e662",
+        "type": "mqtt in",
+        "z": "f81f6e832a3a5c7b",
+        "name": "",
+        "topic": "esp32/gyro/accelerationy",
+        "qos": "2",
+        "datatype": "auto-detect",
+        "broker": "10e78a89.5b4fd5",
+        "nl": false,
+        "rap": false,
+        "inputs": 0,
+        "x": 790,
+        "y": 2060,
+        "wires": [
+            [
+                "151bceb6c0f1f46b",
+                "81bae4100139e32d"
+            ]
+        ]
+    },
+    {
+        "id": "81bae4100139e32d",
+        "type": "ui-gauge",
+        "z": "f81f6e832a3a5c7b",
+        "name": "Acceleration Y",
+        "group": "98a4969d846f5a51",
+        "order": 2,
+        "value": "payload",
+        "valueType": "msg",
+        "width": "2",
+        "height": 3,
+        "gtype": "gauge-half",
+        "gstyle": "needle",
+        "title": "Acceleration Y",
+        "alwaysShowTitle": false,
+        "floatingTitlePosition": "top-left",
+        "units": "m/s2",
+        "icon": "",
+        "prefix": "",
+        "suffix": "",
+        "segments": [
+            {
+                "from": "-15",
+                "color": "#5cd65c",
+                "text": "",
+                "textType": "label"
+            },
+            {
+                "from": "10",
+                "color": "#ffc800",
+                "text": "",
+                "textType": "label"
+            },
+            {
+                "from": "12",
+                "color": "#ea5353",
+                "text": "",
+                "textType": "label"
+            }
+        ],
+        "min": "-15",
+        "max": "15",
+        "sizeThickness": 16,
+        "sizeGap": 4,
+        "sizeKeyThickness": 8,
+        "styleRounded": true,
+        "styleGlow": false,
+        "className": "",
+        "x": 1180,
+        "y": 2200,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "37e7548aa4ad6b04",
+        "type": "mqtt in",
+        "z": "f81f6e832a3a5c7b",
+        "name": "",
+        "topic": "esp32/gyro/accelerationz",
+        "qos": "2",
+        "datatype": "auto-detect",
+        "broker": "10e78a89.5b4fd5",
+        "nl": false,
+        "rap": false,
+        "inputs": 0,
+        "x": 810,
+        "y": 2320,
+        "wires": [
+            [
+                "a55bae9c872b1122",
+                "dbc53f54ab15101c"
+            ]
+        ]
+    },
+    {
+        "id": "dbc53f54ab15101c",
+        "type": "ui-gauge",
+        "z": "f81f6e832a3a5c7b",
+        "name": "Acceleration Z",
+        "group": "98a4969d846f5a51",
+        "order": 3,
+        "value": "payload",
+        "valueType": "msg",
+        "width": "2",
+        "height": 3,
+        "gtype": "gauge-half",
+        "gstyle": "needle",
+        "title": "Acceleration Z",
+        "alwaysShowTitle": false,
+        "floatingTitlePosition": "top-left",
+        "units": "m/s2",
+        "icon": "",
+        "prefix": "",
+        "suffix": "",
+        "segments": [
+            {
+                "from": "-10",
+                "color": "#5cd65c",
+                "text": "",
+                "textType": "label"
+            },
+            {
+                "from": "5",
+                "color": "#ffc800",
+                "text": "",
+                "textType": "label"
+            },
+            {
+                "from": "9",
+                "color": "#ea5353",
+                "text": "",
+                "textType": "label"
+            }
+        ],
+        "min": "-10",
+        "max": "10",
+        "sizeThickness": 16,
+        "sizeGap": 4,
+        "sizeKeyThickness": 8,
+        "styleRounded": true,
+        "styleGlow": false,
+        "className": "",
+        "x": 1200,
+        "y": 2460,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "a55bae9c872b1122",
+        "type": "debug",
+        "z": "f81f6e832a3a5c7b",
+        "name": "debug 14",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 1060,
+        "y": 2300,
+        "wires": []
+    },
+    {
+        "id": "eb0cb2bbbcabb562",
+        "type": "mqtt in",
+        "z": "f81f6e832a3a5c7b",
+        "name": "",
+        "topic": "esp32/gyro/rotationx",
+        "qos": "2",
+        "datatype": "auto-detect",
+        "broker": "10e78a89.5b4fd5",
+        "nl": false,
+        "rap": false,
+        "inputs": 0,
+        "x": 770,
+        "y": 2560,
+        "wires": [
+            [
+                "ac54ed4341126b9e",
+                "d2556a9cb8866708"
+            ]
+        ]
+    },
+    {
+        "id": "d2556a9cb8866708",
+        "type": "ui-gauge",
+        "z": "f81f6e832a3a5c7b",
+        "name": "Rotation X",
+        "group": "98a4969d846f5a51",
+        "order": 5,
+        "value": "payload",
+        "valueType": "msg",
+        "width": "2",
+        "height": 3,
+        "gtype": "gauge-half",
+        "gstyle": "needle",
+        "title": "Rotation X",
+        "alwaysShowTitle": false,
+        "floatingTitlePosition": "top-left",
+        "units": "rad/s",
+        "icon": "",
+        "prefix": "",
+        "suffix": "",
+        "segments": [
+            {
+                "from": "-100",
+                "color": "#5cd65c",
+                "text": "",
+                "textType": "label"
+            },
+            {
+                "from": "50",
+                "color": "#ffc800",
+                "text": "",
+                "textType": "label"
+            },
+            {
+                "from": "90",
+                "color": "#ea5353",
+                "text": "",
+                "textType": "label"
+            }
+        ],
+        "min": "-100",
+        "max": "100",
+        "sizeThickness": 16,
+        "sizeGap": 4,
+        "sizeKeyThickness": 8,
+        "styleRounded": true,
+        "styleGlow": false,
+        "className": "",
+        "x": 1170,
+        "y": 2700,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "ac54ed4341126b9e",
+        "type": "debug",
+        "z": "f81f6e832a3a5c7b",
+        "name": "debug 16",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 1040,
+        "y": 2540,
+        "wires": []
+    },
+    {
+        "id": "42d5adab1733f0a5",
+        "type": "mqtt in",
+        "z": "f81f6e832a3a5c7b",
+        "name": "",
+        "topic": "esp32/gyro/rotationy",
+        "qos": "2",
+        "datatype": "auto-detect",
+        "broker": "10e78a89.5b4fd5",
+        "nl": false,
+        "rap": false,
+        "inputs": 0,
+        "x": 790,
+        "y": 2800,
+        "wires": [
+            [
+                "d7ec78d982f3aaa0",
+                "e0964ecbce9e1e1e"
+            ]
+        ]
+    },
+    {
+        "id": "e0964ecbce9e1e1e",
+        "type": "ui-gauge",
+        "z": "f81f6e832a3a5c7b",
+        "name": "Rotation Y",
+        "group": "98a4969d846f5a51",
+        "order": 6,
+        "value": "payload",
+        "valueType": "msg",
+        "width": "2",
+        "height": 3,
+        "gtype": "gauge-half",
+        "gstyle": "needle",
+        "title": "Rotation Y",
+        "alwaysShowTitle": false,
+        "floatingTitlePosition": "top-left",
+        "units": "rad/s",
+        "icon": "",
+        "prefix": "",
+        "suffix": "",
+        "segments": [
+            {
+                "from": "-100",
+                "color": "#5cd65c",
+                "text": "",
+                "textType": "label"
+            },
+            {
+                "from": "50",
+                "color": "#ffc800",
+                "text": "",
+                "textType": "label"
+            },
+            {
+                "from": "90",
+                "color": "#ea5353",
+                "text": "",
+                "textType": "label"
+            }
+        ],
+        "min": "-100",
+        "max": "100",
+        "sizeThickness": 16,
+        "sizeGap": 4,
+        "sizeKeyThickness": 8,
+        "styleRounded": true,
+        "styleGlow": false,
+        "className": "",
+        "x": 1190,
+        "y": 2940,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "d7ec78d982f3aaa0",
+        "type": "debug",
+        "z": "f81f6e832a3a5c7b",
+        "name": "debug 18",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 1060,
+        "y": 2780,
+        "wires": []
+    },
+    {
+        "id": "947acd030dbc3d3c",
+        "type": "mqtt in",
+        "z": "f81f6e832a3a5c7b",
+        "name": "",
+        "topic": "esp32/gyro/rotationz",
+        "qos": "2",
+        "datatype": "auto-detect",
+        "broker": "10e78a89.5b4fd5",
+        "nl": false,
+        "rap": false,
+        "inputs": 0,
+        "x": 710,
+        "y": 3040,
+        "wires": [
+            [
+                "48cb4af6d0a27774",
+                "004db90eeef5b85d"
+            ]
+        ]
+    },
+    {
+        "id": "004db90eeef5b85d",
+        "type": "ui-gauge",
+        "z": "f81f6e832a3a5c7b",
+        "name": "Rotation Z",
+        "group": "98a4969d846f5a51",
+        "order": 4,
+        "value": "payload",
+        "valueType": "msg",
+        "width": "2",
+        "height": 3,
+        "gtype": "gauge-half",
+        "gstyle": "needle",
+        "title": "Rotation Z",
+        "alwaysShowTitle": false,
+        "floatingTitlePosition": "top-left",
+        "units": "rad/s",
+        "icon": "",
+        "prefix": "",
+        "suffix": "",
+        "segments": [
+            {
+                "from": "-100",
+                "color": "#5cd65c",
+                "text": "",
+                "textType": "label"
+            },
+            {
+                "from": "50",
+                "color": "#ffc800",
+                "text": "",
+                "textType": "label"
+            },
+            {
+                "from": "90",
+                "color": "#ea5353",
+                "text": "",
+                "textType": "label"
+            }
+        ],
+        "min": "-100",
+        "max": "100",
+        "sizeThickness": 16,
+        "sizeGap": 4,
+        "sizeKeyThickness": 8,
+        "styleRounded": true,
+        "styleGlow": false,
+        "className": "",
+        "x": 1190,
+        "y": 3160,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "48cb4af6d0a27774",
+        "type": "debug",
+        "z": "f81f6e832a3a5c7b",
+        "name": "debug 20",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 1040,
+        "y": 3020,
+        "wires": []
+    },
+    {
+        "id": "151bceb6c0f1f46b",
+        "type": "debug",
+        "z": "f81f6e832a3a5c7b",
+        "name": "debug 12",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 1040,
+        "y": 2040,
+        "wires": []
+    },
+    {
+        "id": "2a74ed4429c6f7e1",
+        "type": "debug",
+        "z": "f81f6e832a3a5c7b",
+        "name": "debug 9",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 460,
+        "y": 880,
+        "wires": []
+    },
+    {
+        "id": "880e4544d8c099cb",
+        "type": "mqtt in",
+        "z": "f81f6e832a3a5c7b",
+        "name": "",
+        "topic": "esp32/light/auto",
+        "qos": "2",
+        "datatype": "auto-detect",
+        "broker": "10e78a89.5b4fd5",
+        "nl": false,
+        "rap": false,
+        "inputs": 0,
+        "x": 180,
+        "y": 700,
+        "wires": [
+            [
+                "2a74ed4429c6f7e1"
+            ]
+        ]
+    },
+    {
+        "id": "7a8a3544b5988d80",
+        "type": "mqtt in",
+        "z": "f81f6e832a3a5c7b",
+        "name": "",
+        "topic": "esp32/light/output",
+        "qos": "2",
+        "datatype": "auto-detect",
+        "broker": "10e78a89.5b4fd5",
+        "nl": false,
+        "rap": false,
+        "inputs": 0,
+        "x": 170,
+        "y": 780,
+        "wires": [
+            [
+                "2a74ed4429c6f7e1"
+            ]
+        ]
+    },
+    {
+        "id": "24f97c0a8d92efd8",
+        "type": "mqtt in",
+        "z": "f81f6e832a3a5c7b",
+        "name": "",
+        "topic": "esp32/light/status",
+        "qos": "2",
+        "datatype": "auto-detect",
+        "broker": "10e78a89.5b4fd5",
+        "nl": false,
+        "rap": false,
+        "inputs": 0,
+        "x": 180,
+        "y": 840,
+        "wires": [
+            [
+                "2a74ed4429c6f7e1"
+            ]
+        ]
+    },
+    {
+        "id": "441f0796cb2f6959",
+        "type": "mqtt out",
+        "z": "f81f6e832a3a5c7b",
+        "name": "",
+        "topic": "esp32/servo/position",
+        "qos": "1",
+        "retain": "",
+        "respTopic": "",
+        "contentType": "",
+        "userProps": "",
+        "correl": "",
+        "expiry": "",
+        "broker": "10e78a89.5b4fd5",
+        "x": 480,
+        "y": 1460,
+        "wires": []
+    },
+    {
+        "id": "05c9849ab98b145f",
+        "type": "mqtt in",
+        "z": "f81f6e832a3a5c7b",
+        "name": "",
+        "topic": "esp32/garbage/level_percentage",
+        "qos": "2",
+        "datatype": "auto-detect",
+        "broker": "10e78a89.5b4fd5",
+        "nl": false,
+        "rap": false,
+        "inputs": 0,
+        "x": 450,
+        "y": 1040,
+        "wires": [
+            [
+                "37a134e712738c6e",
+                "06f627ce33b50542"
+            ]
+        ]
+    },
+    {
+        "id": "7644687a629c03ee",
+        "type": "mqtt in",
+        "z": "f81f6e832a3a5c7b",
+        "name": "",
+        "topic": "esp32/garbage/data",
+        "qos": "2",
+        "datatype": "auto-detect",
+        "broker": "10e78a89.5b4fd5",
+        "nl": false,
+        "rap": false,
+        "inputs": 0,
+        "x": 430,
+        "y": 1100,
+        "wires": [
+            [
+                "4c6c30e1507c0291"
+            ]
+        ]
+    },
+    {
+        "id": "37a134e712738c6e",
+        "type": "debug",
+        "z": "f81f6e832a3a5c7b",
+        "name": "debug 11",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 820,
+        "y": 1020,
+        "wires": []
+    },
+    {
+        "id": "4c6c30e1507c0291",
+        "type": "debug",
+        "z": "f81f6e832a3a5c7b",
+        "name": "debug 13",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 700,
+        "y": 1080,
+        "wires": []
+    },
+    {
+        "id": "10e78a89.5b4fd5",
+        "type": "mqtt-broker",
+        "name": "",
+        "broker": "localhost",
+        "port": "1883",
+        "clientid": "",
+        "usetls": false,
+        "compatmode": true,
+        "keepalive": "60",
+        "cleansession": true,
+        "birthTopic": "",
+        "birthQos": "0",
+        "birthPayload": "",
+        "closeTopic": "",
+        "closeQos": "0",
+        "closePayload": "",
+        "willTopic": "",
+        "willQos": "0",
+        "willPayload": ""
+    },
+    {
+        "id": "586eef57c3fd18e2",
+        "type": "ui-group",
+        "name": "Weather Station",
+        "page": "483509cba5f47933",
+        "width": "6",
+        "height": "1",
+        "order": 1,
+        "showTitle": true,
+        "className": "",
+        "visible": "true",
+        "disabled": "false",
+        "groupType": "default"
+    },
+    {
+        "id": "91ed78c66b982b12",
+        "type": "ui-group",
+        "name": "Garbage dumpster",
+        "page": "483509cba5f47933",
+        "width": "6",
+        "height": "1",
+        "order": 2,
+        "showTitle": true,
+        "className": "",
+        "visible": "true",
+        "disabled": "false",
+        "groupType": "default"
+    },
+    {
+        "id": "e47fc3dc6dbc4f5c",
+        "type": "ui-group",
+        "name": "Smart Lamp",
+        "page": "483509cba5f47933",
+        "width": "6",
+        "height": 1,
+        "order": 3,
+        "showTitle": true,
+        "className": "",
+        "visible": "true",
+        "disabled": "false",
+        "groupType": "default"
+    },
+    {
+        "id": "98a4969d846f5a51",
+        "type": "ui-group",
+        "name": "Gyroscope",
+        "page": "483509cba5f47933",
+        "width": 6,
+        "height": 1,
+        "order": 4,
+        "showTitle": true,
+        "className": "",
+        "visible": "true",
+        "disabled": "false",
+        "groupType": "default"
+    },
+    {
+        "id": "483509cba5f47933",
+        "type": "ui-page",
+        "name": "Tinamica IoT dashboard control panel",
+        "ui": "ede86061982d2f56",
+        "path": "/page1",
+        "icon": "home",
+        "layout": "grid",
+        "theme": "59dd1fb2010492c8",
+        "breakpoints": [
+            {
+                "name": "Default",
+                "px": "0",
+                "cols": "3"
+            },
+            {
+                "name": "Tablet",
+                "px": "576",
+                "cols": "6"
+            },
+            {
+                "name": "Small Desktop",
+                "px": "768",
+                "cols": "9"
+            },
+            {
+                "name": "Desktop",
+                "px": "1024",
+                "cols": "12"
+            }
+        ],
+        "order": 1,
+        "className": "",
+        "visible": "true",
+        "disabled": "false"
+    },
+    {
+        "id": "ede86061982d2f56",
+        "type": "ui-base",
+        "name": "My Dashboard",
+        "path": "/dashboard",
+        "appIcon": "",
+        "includeClientData": true,
+        "acceptsClientConfig": [
+            "ui-notification",
+            "ui-control"
+        ],
+        "showPathInSidebar": false,
+        "headerContent": "page",
+        "navigationStyle": "default",
+        "titleBarStyle": "default",
+        "showReconnectNotification": true,
+        "notificationDisplayTime": 1,
+        "showDisconnectNotification": true,
+        "allowInstall": false
+    },
+    {
+        "id": "59dd1fb2010492c8",
+        "type": "ui-theme",
+        "name": "Default Theme",
+        "colors": {
+            "surface": "#ffffff",
+            "primary": "#0e00cc",
+            "bgPage": "#eeeeee",
+            "groupBg": "#ffffff",
+            "groupOutline": "#cccccc"
+        },
+        "sizes": {
+            "density": "default",
+            "pagePadding": "12px",
+            "groupGap": "12px",
+            "groupBorderRadius": "4px",
+            "widgetGap": "12px"
+        }
+    },
+    {
+        "id": "1294d5da900643f5",
+        "type": "global-config",
+        "env": [],
+        "modules": {
+            "@flowfuse/node-red-dashboard": "1.29.0"
+        }
+    }
+]
