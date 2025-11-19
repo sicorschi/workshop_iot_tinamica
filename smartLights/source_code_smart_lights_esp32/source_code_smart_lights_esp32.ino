@@ -13,124 +13,119 @@ PubSubClient client(espClient);
 long lastMsg = 0;
 char msg[50];
 int value = 0;
-int relayGPIOs[NUM_RELAYS] = {26};
 const char* ssid = "";
 const char* password = "";
 const char* mqtt_server = "192.168.0.18";
-const char* PARAM_INPUT_1 = "relay";  
-const char* PARAM_INPUT_2 = "state";
 long duration;
 float distanceCm;
-float distanceInch;
-const int trigPin = 5;
-const int echoPin = 18;
+const int trigPin = 14;
+const int echoPin = 12;
 const int relay = 26;
 
-AsyncWebServer server(80);
-
-const char index_html[] PROGMEM = R"rawliteral(
-<!DOCTYPE HTML><html>
-<head>
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <style>
-    html {font-family: Arial; display: inline-block; text-align: center;}
-    h2 {font-size: 3.0rem;}
-    p {font-size: 3.0rem;}
-    body {max-width: 600px; margin:0px auto; padding-bottom: 25px;}
-    .switch {position: relative; display: inline-block; width: 120px; height: 68px} 
-    .switch input {display: none}
-    .slider {position: absolute; top: 0; left: 0; right: 0; bottom: 0; background-color: #ccc; border-radius: 34px}
-    .slider:before {position: absolute; content: ""; height: 52px; width: 52px; left: 8px; bottom: 8px; background-color: #fff; -webkit-transition: .4s; transition: .4s; border-radius: 68px}
-    input:checked+.slider {background-color: #2196F3}
-    input:checked+.slider:before {-webkit-transform: translateX(52px); -ms-transform: translateX(52px); transform: translateX(52px)}
-  </style>
-</head>
-<body>
-  <h2>ESP Web Server</h2>
-  %BUTTONPLACEHOLDER%
-<script>function toggleCheckbox(element) {
-  var xhr = new XMLHttpRequest();
-  if(element.checked){ xhr.open("GET", "/update?relay="+element.id+"&state=1", true); }
-  else { xhr.open("GET", "/update?relay="+element.id+"&state=0", true); }
-  xhr.send();
-}</script>
-</body>
-</html>
-)rawliteral";
-
-// Replaces placeholder with button section in your web page
-String processor(const String& var){
-  //Serial.println(var);
-  if(var == "BUTTONPLACEHOLDER"){
-    String buttons ="";
-    for(int i=1; i<=NUM_RELAYS; i++){
-      String relayStateValue = relayState(i);
-      buttons+= "<h4>Relay #" + String(i) + " - GPIO " + relayGPIOs[i-1] + "</h4><label class=\"switch\"><input type=\"checkbox\" onchange=\"toggleCheckbox(this)\" id=\"" + String(i) + "\" "+ relayStateValue +"><span class=\"slider\"></span></label>";
-    }
-    return buttons;
-  }
-  return String();
-}
-
-String relayState(int numRelay){
-  if(RELAY_NO){
-    if(digitalRead(relayGPIOs[numRelay-1])){
-      return "";
-    }
-    else {
-      return "checked";
-    }
-  }
-  else {
-    if(digitalRead(relayGPIOs[numRelay-1])){
-      return "checked";
-    }
-    else {
-      return "";
-    }
-  }
-  return "";
-}
+// Variables for automatic light control
+bool presenceDetected = false;
+bool lightsOn = false;
+unsigned long lastPresenceTime = 0;
+const unsigned long lightOffDelay = 10000; // 10 seconds in milliseconds
 
 void callback(char* topic, byte* message, unsigned int length) {
-  Serial.print("Message arrived on topic: ");
+  Serial.print("[MQTT] Message arrived on topic: '");
   Serial.print(topic);
-  Serial.print(". Message: ");
+  Serial.print("' with message: '");
+  
   String messageTemp;
   for (int i = 0; i < length; i++) {
     Serial.print((char)message[i]);
     messageTemp += (char)message[i];
   }
-  Serial.println();
-  if (String(topic) == "esp32/light") {
-    Serial.print("Changing output to ");
+  Serial.print("' (length: ");
+  Serial.print(length);
+  Serial.println(")");
+  
+  // Convert message to lowercase for case-insensitive comparison
+  messageTemp.toLowerCase();
+  
+  if (String(topic) == "esp32/light/output") {
+    Serial.print("[MQTT] Processing light control command: ");
+    Serial.println(messageTemp);
+    
     if(messageTemp == "on"){
-      Serial.println("on");
+      Serial.println("[MQTT] Turning lights ON via MQTT");
       digitalWrite(relay, HIGH);
-      Serial.println("Lights ON!");
+      lightsOn = true;
+      lastPresenceTime = millis(); // Reset timer when manually turned on
+      client.publish("esp32/light/status", "1");
+      client.publish("esp32/light/auto", "Lights ON - Manual MQTT control");
     }
     else if(messageTemp == "off"){
-      Serial.println("off");
+      Serial.println("[MQTT] Turning lights OFF via MQTT");
       digitalWrite(relay, LOW);
-      Serial.println("Lights OFF!");
+      lightsOn = false;
+      client.publish("esp32/light/status", "0");
+      client.publish("esp32/light/auto", "Lights OFF - Manual MQTT control");
     }
+    else {
+      Serial.print("[MQTT] Unknown command: '");
+      Serial.print(messageTemp);
+      Serial.println("'. Expected 'on' or 'off'");
+    }
+  } else {
+    Serial.print("[MQTT] Ignored message on unexpected topic: ");
+    Serial.println(topic);
   }
+}
+
+void turnOnLights() {
+  if (!lightsOn) {
+    digitalWrite(relay, HIGH);
+    lightsOn = true;
+    Serial.println("Lights turned ON automatically!");
+    client.publish("esp32/light/auto", "Lights ON - Presence detected");
+  }
+}
+
+void turnOffLights() {
+  digitalWrite(relay, LOW);
+  lightsOn = false;
+  Serial.println("Lights turned OFF automatically - No presence for 15 seconds");
+  client.publish("esp32/light/auto", "Lights OFF - Auto timeout");
 }
 
 void reconnect() {
   // Loop until we're reconnected
   while (!client.connected()) {
-    Serial.print("Attempting MQTT connection...");
+    Serial.println("[MQTT] Attempting MQTT connection...");
+    
+    // Create unique client ID using MAC address
+    String clientId = "ESP32Light_" + WiFi.macAddress();
+    clientId.replace(":", "");
+    
+    Serial.print("[MQTT] Client ID: ");
+    Serial.println(clientId);
+    
     // Attempt to connect
-    if (client.connect("ESP32Client")) {
-      Serial.println("connected");
-      // Subscribe
-      client.subscribe("esp32/light");
+    if (client.connect(clientId.c_str())) {
+      Serial.println("[MQTT] Connected successfully!");
+      
+      // Subscribe to control topic
+      Serial.print("[MQTT] Subscribing to topic: esp32/light/output... ");
+      if (client.subscribe("esp32/light/output")) {
+        Serial.println("SUCCESS");
+      } else {
+        Serial.println("FAILED");
+      }
+      
+      // Publish connection status
+      client.publish("esp32/light/connection", "Connected");
+      client.publish("esp32/light/status", lightsOn ? "1" : "0");
+      
+      Serial.println("[MQTT] Ready to receive commands on 'esp32/light/output'");
+      Serial.println("[MQTT] Send 'on' or 'off' to control lights");
+      
     } else {
-      Serial.print("failed, rc=");
+      Serial.print("[MQTT] Connection failed, rc=");
       Serial.print(client.state());
-      Serial.println(" try again in 5 seconds");
-      // Wait 5 seconds before retrying
+      Serial.println(" retrying in 5 seconds");
       delay(5000);
     }
   }
@@ -142,57 +137,18 @@ void setup() {
   pinMode(trigPin, OUTPUT);
   pinMode(relay, OUTPUT);
   pinMode(echoPin, INPUT);
-  // Set all relays to off when the program starts - if set to Normally Open (NO), the relay is off when you set the relay to HIGH
-  for(int i=1; i<=NUM_RELAYS; i++){
-    pinMode(relayGPIOs[i-1], OUTPUT);
-    if(RELAY_NO){
-      digitalWrite(relayGPIOs[i-1], HIGH);
-    }
-    else{
-      digitalWrite(relayGPIOs[i-1], LOW);
-    }
-  }
   WiFi.begin(ssid, password);
   while (WiFi.status() != WL_CONNECTED) {
     delay(1000);
     Serial.println("Connecting to WiFi..");
   }
   Serial.println(WiFi.localIP());
-  server.on("/", HTTP_GET, [](AsyncWebServerRequest *request){
-    request->send(200, "text/html", index_html, processor);
-  });
-  server.on("/update", HTTP_GET, [] (AsyncWebServerRequest *request) {
-    String inputMessage;
-    String inputParam;
-    String inputMessage2;
-    String inputParam2;
-    if (request->hasParam(PARAM_INPUT_1) & request->hasParam(PARAM_INPUT_2)) {
-      inputMessage = request->getParam(PARAM_INPUT_1)->value();
-      inputParam = PARAM_INPUT_1;
-      inputMessage2 = request->getParam(PARAM_INPUT_2)->value();
-      inputParam2 = PARAM_INPUT_2;
-      if(RELAY_NO){
-        Serial.print("NO ");
-        digitalWrite(relayGPIOs[inputMessage.toInt()-1], !inputMessage2.toInt());
-      }
-      else{
-        Serial.print("NC ");
-        digitalWrite(relayGPIOs[inputMessage.toInt()-1], inputMessage2.toInt());
-      }
-    }
-    else {
-      inputMessage = "No message sent";
-      inputParam = "none";
-    }
-    Serial.println(inputMessage + inputMessage2);
-    request->send(200, "text/plain", "OK");
-  });
   client.setServer(mqtt_server, 1883);
   client.setCallback(callback);
-  server.begin();
 }
 
 void loop() {
+  // Read ultrasonic sensor
   digitalWrite(trigPin, LOW);
   delayMicroseconds(2);
   digitalWrite(trigPin, HIGH);
@@ -200,28 +156,59 @@ void loop() {
   digitalWrite(trigPin, LOW);
   duration = pulseIn(echoPin, HIGH);
   distanceCm = duration * SOUND_SPEED/2;
+  
   Serial.print("Distance (cm): ");
   Serial.println(distanceCm);
-  if (distanceCm < 5) {
-    digitalWrite(relay, HIGH);
-    Serial.println("Lights ON!");
+  
+  // Check for presence detection (within 10cm)
+  if (distanceCm < 10 && distanceCm > 0) {
+    if (!presenceDetected) {
+      presenceDetected = true;
+      Serial.println("Presence detected!");
+    }
+    lastPresenceTime = millis(); // Update last presence time
+    turnOnLights(); // Turn on lights immediately
+  } else {
+    presenceDetected = false;
   }
+  
+  // Check if lights should be turned off due to no presence
+  unsigned long currentTime = millis();
+  if (lightsOn && !presenceDetected && (currentTime - lastPresenceTime > lightOffDelay)) {
+    turnOffLights();
+  }
+  
+  // MQTT connection management
   if (!client.connected()) {
     reconnect();
   }
   client.loop();
+  
+  // Publish status updates every 5 seconds
   long now = millis();
   if (now - lastMsg > 5000) {
     lastMsg = now;
     
-    int relayValue = digitalRead(26);
-    if (isnan(relayValue)) {
-      Serial.println(F("Failed to read from relay!"));
-      return;
-    }
+    // Publish relay status
+    int relayValue = digitalRead(relay);
     char relayString[8];
-    dtostrf(relayValue, 1, 2, relayString);
+    dtostrf(relayValue, 1, 0, relayString);
     client.publish("esp32/light/status", relayString);
+    
+    // Publish distance reading
+    char distanceString[10];
+    dtostrf(distanceCm, 1, 2, distanceString);
+    client.publish("esp32/light/distance", distanceString);
+    
+    // Publish time since last presence
+    unsigned long timeSincePresence = currentTime - lastPresenceTime;
+    char timeString[10];
+    dtostrf(timeSincePresence / 1000.0, 1, 0, timeString); // Convert to seconds
+    client.publish("esp32/light/time_since_presence", timeString);
+    
+    Serial.printf("Status: Lights %s | Distance: %.2fcm | Time since presence: %lus\n", 
+                  lightsOn ? "ON" : "OFF", distanceCm, timeSincePresence / 1000);
   }
-  delay(1000);
+  
+  delay(200); // Reduced delay for more responsive detection
 }
