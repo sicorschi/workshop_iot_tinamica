@@ -153,6 +153,7 @@ void loop() {
     Serial.println(humString);
     client.publish("esp32/humidity", humString);
   }
+  delay(200);
 }
 
 

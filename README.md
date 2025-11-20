@@ -212,6 +212,140 @@ ssh igor@192.168.0.17
 
 ![alt text](assets/image-14.png)
 
+### Configure WiFi Credentials (Post-Setup)
+
+If you need to change the WiFi credentials after the initial setup, follow these steps via SSH:
+
+#### Method 1: Using wpa_supplicant (Recommended)
+
+1. **Edit the wpa_supplicant configuration file:**
+
+   ```bash
+   sudo nano /etc/wpa_supplicant/wpa_supplicant.conf
+   ```
+
+2. **Add or modify the network configuration:**
+
+   ```bash
+   # Basic configuration
+   country=US  # Change to your country code (ES for Spain)
+   ctrl_interface=DIR=/var/run/wpa_supplicant GROUP=netdev
+   update_config=1
+
+   # Your WiFi network
+   network={
+       ssid="YOUR_WIFI_NAME"
+       psk="YOUR_WIFI_PASSWORD"
+       key_mgmt=WPA-PSK
+   }
+   ```
+
+3. **For WPA2/WPA3 Enterprise networks:**
+
+   ```bash
+   network={
+       ssid="YOUR_ENTERPRISE_WIFI"
+       key_mgmt=WPA-EAP
+       eap=PEAP
+       identity="your_username"
+       password="your_password"
+       phase2="auth=MSCHAPV2"
+   }
+   ```
+
+4. **For open networks (no password):**
+
+   ```bash
+   network={
+       ssid="OPEN_WIFI_NAME"
+       key_mgmt=NONE
+   }
+   ```
+
+5. **Save and apply changes:**
+
+   ```bash
+   # Save the file (Ctrl+X, then Y, then Enter in nano)
+
+   # Restart wpa_supplicant service
+   sudo systemctl restart wpa_supplicant
+
+   # Or restart networking
+   sudo systemctl restart networking
+
+   # Or reboot the Pi (recommended)
+   sudo reboot
+   ```
+
+#### Method 2: Using raspi-config (GUI)
+
+```bash
+sudo raspi-config
+# Navigate to: Network Options → Wi-Fi
+```
+
+#### Method 3: Using wpa_cli (Command Line)
+
+```bash
+# Interactive mode
+sudo wpa_cli
+
+# In wpa_cli:
+> scan
+> scan_results
+> add_network
+> set_network 0 ssid "YOUR_WIFI_NAME"
+> set_network 0 psk "YOUR_WIFI_PASSWORD"
+> enable_network 0
+> save_config
+> quit
+```
+
+#### Verify Connection
+
+```bash
+# Check WiFi status
+iwconfig
+
+# Check network interfaces
+ip addr show
+
+# Test internet connectivity
+ping google.com
+
+# Check wpa_supplicant status
+sudo systemctl status wpa_supplicant
+```
+
+#### Multiple Networks Configuration
+
+You can configure multiple WiFi networks with priorities:
+
+```bash
+country=ES
+ctrl_interface=DIR=/var/run/wpa_supplicant GROUP=netdev
+update_config=1
+
+network={
+    ssid="HomeWiFi"
+    psk="homepassword123"
+    priority=1
+}
+
+network={
+    ssid="OfficeWiFi"
+    psk="officepassword456"
+    priority=2
+}
+```
+
+**Important Notes:**
+
+- Always backup the configuration: `sudo cp /etc/wpa_supplicant/wpa_supplicant.conf /etc/wpa_supplicant/wpa_supplicant.conf.backup`
+- Set the correct country code (ES for Spain, US for United States, etc.)
+- Higher priority numbers mean higher priority networks
+- If your password has special characters, escape them or use quotes
+
 ### Setup Broker
 
 1. Install mosquitto broker
